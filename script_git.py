@@ -45,10 +45,11 @@ if commit is True:										#executa o commit caso haja alterações
 	for line in arquivo_copy:
 		os.system("cp " + line + " /home/github/" + line)
 
-	os.system("/home/github/script_github.py")
+	os.system("git -C \"/home/github\" add .")
+	os.system("git -C \"/home/github\" commit -a -m \"commit remoto de script_git\"")
+	os.system("git -C \"/home/github\" push -u origin master")
 	
-
-
+#git -C "/home/github" commit -a -m "commit remote"
 #	word = line.split()
 #	if len(word) > 1:
 #		if word[0]=="modified:":
