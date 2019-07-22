@@ -51,4 +51,4 @@ if commit is True:										#executa o commit caso haja alterações
 	os.system("git -C \"/home/github\" push -u origin master")
 	
 	
-#teste de envio 123
+#teste de envio 4
