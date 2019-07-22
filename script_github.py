@@ -6,5 +6,5 @@ import os
 os.system("git add .")
 os.system("git commit -a -m \"commit de script_git\"")
 os.system("git push -u origin master")
-
+#teste 134asdf
 
