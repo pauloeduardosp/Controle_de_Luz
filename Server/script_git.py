@@ -43,13 +43,20 @@ if commit is True:										#executa o commit caso haja alterações
 
 
 	for line in arquivo_copy:
-		os.system("cp " + line + " /home/github/" + line)
+		#os.system("cp " + line + " /home/github/Server" + line)
+		print('line = {}' .format(line))
+		cp_command = 'cp ' + line + ' /home/github/Server/' + line
+		print('cp_command = {}' .format(cp_command))
+		cp = os.popen(cp_command).read()
+		print("\n\n ########### cp \n")
+		print(cp)
+		print("\n ########### cp fim \n")
 
 	os.system("git -C \"/home/github\" add .")
 	os.system("git -C \"/home/github\" commit -a -m \"commit remoto de script_git\"")
 	os.system("git -C \"/home/github\" push -u origin master")
 	
-#teste envio arquiov 2
+#teste envio arquiov 5
 #git -C "/home/github" commit -a -m "commit remote"
 #	word = line.split()
 #	if len(word) > 1:
