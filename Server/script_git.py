@@ -2,7 +2,7 @@
 
 import os
 
-git_status = os.popen('git status').read()
+git_status = os.popen('git -C \"/root/.node-red\" status').read()
 lines = git_status.splitlines()
 
 commit = False
@@ -10,13 +10,12 @@ changes_for_commit = False
 
 arquivo_copy = []
 
-
 for line in lines:        
 
 	word = line.split()
 	if len(word) > 0:
 		if  word[0][:10] == "lib/flows/":        		#verifica se houve alteração nos arquivo de biblioteca de flow
-			os.system("git add " + word[0])
+			os.system("git -C \"/root/.node-red\" add " + word[0])
 			arquivo_copy.append(word[0])
 			print("\t\t ### novo add lib/flow")
 			commit = True
@@ -35,7 +34,7 @@ for line in lines:
 
 
 if commit is True:										#executa o commit caso haja alterações
-	os.system("git commit -a -m \"commit de script_git\"")
+	os.system("git -C \"/root/.node-red\" commit -a -m \"commit de script_git\"")
 	print("executa commit")
 	print("\n\n ######## arquivo_copy ############ \n")
 	print(arquivo_copy)
@@ -43,7 +42,7 @@ if commit is True:										#executa o commit caso haja alterações
 
 
 	for line in arquivo_copy:
-		os.system("cp " + line + " /home/github/Server/" + line)
+		os.system("cp /root/.node-red/" + line + " /home/github/Server/" + line)
 
 #	exit()
 	os.system("git -C \"/home/github\" add .")
