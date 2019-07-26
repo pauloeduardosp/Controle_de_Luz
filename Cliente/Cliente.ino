@@ -6,23 +6,30 @@
  *       Utilização do WifiMAnager
  *       Exclusão da pagina HTTP para controle da luz
  *       Criação de pagina HTTP para reset do modulo
- *    V4 Implementação de abas no sketch - 22/06/2016
+ *    V4 Implementação de abas no sketch - 22/06/2016f
  *       Mudança do OTA via web arr
  *    vo
  */ 
-  
+  // voltar a divulgar o wifi ap
+  // verificar a reconecão do WebSockets qdo o server cai (recompila)
 
 
 #include <EEPROM.h>
 #include <ESP8266WiFi.h>          //https://github.com/esp8266/Arduino
+//#include <DNSServer.h> // tirar
 #include <ESP8266WebServer.h>
-//#include <WebSocketsClient.h>
+#include <WebSocketsClient.h>
+//#include <ESP8266mDNS.h> // tirar
+//#include <WiFiManager.h>   // tirar       //https://github.com/tzapu/WiFiManager
+//#include <WiFiUdp.h> // tirar
+//#include <Hash.h> // tirar
 #include <ESP8266HTTPUpdateServer.h>
 #include <ESP8266HTTPClient.h>
+//#include <ESP8266Ping.h>
 
 #define EEPROM_qtdReset 0             // tamanho total 1 byte
-#define EEPROM_gpioLuz 1              // tamanho total 1 byte
-#define EEPROM_gpioInterruptor 2      // tamanho total 1 byte
+//#define EEPROM_gpioLuz 1              // tamanho total 1 byte
+//#define EEPROM_gpioInterruptor 2      // tamanho total 1 byte
 #define EEPROM_qtdLuz 3               // tamanho total 1 byte
 #define EEPROM_idLuz0 4               // tamanho total 1 byte
 #define EEPROM_idLuz1 5               // tamanho total 1 byte
@@ -62,12 +69,12 @@
 
 
 void http_reset(void);
-//void verificacao_status_lampada();
+//void verificacao_status_lampada(void);
 //void update_inicial(void);
 //void telnet(void);
 
 int versao = 4;
-int subversao = 0;
+int subversao = 6;
 
 int gpioLuz[5] = {0};                //TX GPIO01     aba mudanca_interruptor, rst, update_inicial, verificacao_status_lampada, http_config
 int gpioInterruptor[5] = {2};        //RX GPI03      aba mudanca_interruptor, http_config
@@ -81,8 +88,8 @@ String nomeLuz[5] = {"Luz_1", "Luz_2","Luz_3","Luz_4"};
 unsigned int wsStatusDelay;
 //int POST_qtdLuz;
 boolean divulgaAP = true;  // aba update_inicial
-//boolean wsStatus = false;   //websoket status
-//boolean wsOldStatus = false; //websoket oldstatus
+boolean wsStatus = true;   //websoket status
+boolean wsOldStatus = false; //websoket oldstatus
 //unsigned int now;
 //String STR_teste;
 //byte ipServer_novo[4];
@@ -90,16 +97,16 @@ byte octeto[4];
 //String ipServer_novo[4] = "";
 
 //boolean inicialWifiStatus = true; 
-
-//############################################
+String teste;
+String teste1;
+boolean lastStatus;
+int qtdup;
+//#################;###########################
 
 
 boolean lastStatusInt[5];          // aba mudanca_interruptor
 int delayinterruptor;           // aba mudanca_interruptor
-boolean lastStatusLampada[5];      // aba verificacao_status_lampada
-
-
-//boolean oldstatusWifi = false;  // aba update_inicial
+boolean lastStatusLampada[5];      // aba verificaca0_status_lampada
 
 
 int delayversao = 0;            // aba update_inicial
@@ -115,7 +122,7 @@ int qtdLuz = 1;                 //aba http_config
 
 int idServer[4] = {0,0,0,0}; // um para cada luz   aba http_config
 
-//WebSocketsClient webSocket;
+WebSocketsClient webSocket;
 
 ESP8266WebServer server(82);
 ESP8266HTTPUpdateServer httpUpdater;
@@ -132,14 +139,14 @@ extern "C" {
 #include "user_interface.h"
 }
 
-//uint8_t *socket_payload;
+uint8_t *socket_payload;
 
 const uint16_t aport = 23;        //monitoria telnet standard port
 WiFiServer TelnetServer(aport);   //monitoria telnet
 WiFiClient TelnetClient;          //monitoria telnet
 
 
-//IPAddress ipServer(0,0,0,0);     // casa SERVER varanda
+IPAddress ipServer(0,0,0,0);     // casa SERVER varanda
 
 
 void setup() {
@@ -147,7 +154,6 @@ void setup() {
 //  Serial.begin(115200);            // Inicial Serial
   
   EEPROM.begin(512);              // inicial EEPROM
-
 //#########################
 //### Função para reset constante
   EEPROM.write(EEPROM_qtdReset, EEPROM.read(EEPROM_qtdReset)+1);
@@ -160,15 +166,6 @@ void setup() {
     for(int p = 0; p <= 512; p++){
       EEPROM.write(p, 255);
     }
-
-//    for(byte p = EEPROM_gpioLuz0; p <= (EEPROM_gpioLuz0 + EEPROM_qtdLuz); p++){
-//      EEPROM.write(p, 255);
-//    }
-//    
-//    for(byte p = EEPROM_gpioInterruptor; p <= (EEPROM_gpioInterruptor + EEPROM_qtdLuz); p++){
-//      EEPROM.write(p, 255);
-//    }
-//   EEPROM.write(EEPROM_qtdReset, 0);   
   }
   EEPROM.commit();  
 
@@ -180,16 +177,14 @@ void setup() {
   TelnetServer.begin();           //monitoria via telnet
   TelnetServer.setNoDelay(true);  //monitoria via telnet
 
-char* wifi_host = nomeDevice;
-  wifi_station_set_hostname(nomeDevice);
+  wifi_station_set_hostname("Quarto1");
 
   httpUpdater.setup(&server);
   server.on("/reset",http_reset);                     // h_r
   server.on("/config", HTTP_GET, http_config);        //pagina http de confiugaracao do modulo - aba http_config
   server.on("/config", HTTP_POST, http_config_post);  //pagina http de confiugaracao do modulo - aba http_config
-//  server.on("/update_server", HTTP_GET, update_server);
-//  server.on("/update_server", HTTP_POST, update_server);
-
+  server.on("/update_server", HTTP_GET, update_server);
+  server.on("/update_server", HTTP_POST, update_server);
   server.begin();
 
 
@@ -199,46 +194,53 @@ char* wifi_host = nomeDevice;
   }
 
 
-
-
 //  WiFi.begin("anonymous2", "manuela.");
   WiFi.begin(wifi.ssid, wifi.password); 
-  WiFi.softAP(APssid, APpassword);
 
-//for(int x=0; x<=10; x++){
-//  Serial.print(".");
-//  delay(1000);
-//   if (WiFi.status() == WL_CONNECTED){
-//    break;
-//   }
-//}
+  nomeDevice.toCharArray(APssid, 20);
+  nomeDevice.toCharArray(APpassword, 20);
+  WiFi.softAP(APssid);//, APpassword);
+
+for(int x=0; x<=10; x++){
+  Serial.print(".");
+  delay(1000);
+   if (WiFi.status() == WL_CONNECTED){
+    Serial.println(WiFi.localIP().toString());
+    break;
+   }
+}
 
 
-//  IPAddress ipServer(octeto[0],octeto[1],octeto[2],octeto[3]);
-//  String value = ipServer.toString();
-//  webSocket.begin(value, 81); 
+  IPAddress ipServer(octeto[0],octeto[1],octeto[2],octeto[3]);
+  String value = ipServer.toString();
+  webSocket.begin(value, 81); 
   
   
-//  webSocket.onEvent(webSocketEvent);
-//  socket_payload = (uint8_t*) calloc(5, sizeof(uint8_t));
+  webSocket.onEvent(webSocketEvent);
+  socket_payload = (uint8_t*) calloc(5, sizeof(uint8_t));
 
 
 
   EEPROM.write(EEPROM_qtdReset, 0);       // função reset constante
   EEPROM.commit();                        // função reset constante
+
+
 }
 
 
 void loop() {
 
-//  if(wsStatus == false && wsStatusDelay < millis()){
-//    webSocket.loop();               // referente ao websocket
-//    Serial.println(millis()/1000);
-//    Serial.println("\t entrou no if");
-//    wsStatusDelay = (millis() + 30000);
-//  } else {
-//    webSocket.loop();               // referente ao websocket
-//  }
+  if(wsStatus == false){
+    if(wsStatusDelay < millis()){
+//Serial.printf("%d webSocket.loop() desconectado\n", millis()/1000);
+      webSocket.loop();               // referente ao websocket
+      wsStatusDelay = millis()+30000;
+    }
+  } else {
+//Serial.printf("%d webSocket.loop() conectado\n", millis()/1000);
+      webSocket.loop();               // referente ao websocket
+  }
+
 
   mudanca_interruptor();          // monitora o status do interruptor - aba mudança_interruptor
   server.handleClient();          // referente a funçao server.on

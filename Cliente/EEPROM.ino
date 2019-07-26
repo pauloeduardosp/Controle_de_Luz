@@ -39,6 +39,15 @@ void saveConfig() {
   } 
 
 
+  // ##################### Configuração IpServer
+  Serial.println("// ##################### Configuração IpServer");
+  for(byte p = 0; p < 4; p++){
+    if(octeto[p] != EEPROM.read(EEPROM_octeto0 + p)){
+      EEPROM.write(EEPROM_octeto0 + p, octeto[p]);
+      reset = true;
+    }
+  }
+
   // ##################### Configuração Luz
   // ##################### Nome Device
 
@@ -192,6 +201,12 @@ void loadConfig(){
     TelnetClient.printf("[EEPROM LOAD] Atualizando wifi.password para "); 
     TelnetClient.println(String(wifi.password));
 
+// ##################### IpServer
+  for(byte p = 0; p < 4; p++){
+    octeto[p] = EEPROM.read(EEPROM_octeto0 + p);
+    Serial.printf("[EEPROM LOAD] Atualizando octeto[%d] para %d \n", p, octeto[p]);
+    TelnetClient.printf("[EEPROM LOAD] Atualizando octeto[%d] para %d \n", p, octeto[p]);
+  }
 
 
 // ##################### Nome Device
