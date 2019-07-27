@@ -75,8 +75,8 @@ teste_funcao();
 
   buf += "<head>\r\n";
 //  buf += "<head><meta http-equiv=\"refresh\" content=\"1;URL=http://pauloeduardosp.no-ip.org:82\"></head>\n";
-
-  buf += "<title>Domotica Config Cliente</title>\r\n";
+  value = mqttDeviceId;
+  buf += "<title>Domotica Config "+value+"</title>\r\n";
   buf += "<meta name=\"viewport\" content=\"width=320\">\r\n";
   buf += "<meta name=\"viewport\" content=\"width=device-width\">\r\n";
   buf += "<meta charset=\"utf-8\">\r\n";
@@ -107,7 +107,9 @@ teste_funcao();
   buf += "<BR>\r\n";
   buf += "<form action=\"configpost\" method=POST>\r\n";
 
-  buf += "<title>Domotica Config Cliente</title>\r\n";
+  value = mqttDeviceId;
+  buf += "<title>Domotica Config "+value+"</title>\r\n";
+ // buf += "<title>Domotica Config Cliente</title>\r\n";
   buf += "<h3> Configuração Cliente</h3>\r\n";
 
 // ####################################################
@@ -390,7 +392,7 @@ void http_config_post() {
   buf += "<!doctype html>\r\n";
   buf += "<html>\r\n";
   buf += "<head>\r\n";
-  buf += "<head><meta http-equiv=\"refresh\" content=\"8;URL=http://"+MEUIP+":82/config\"></head>\n";
+  buf += "<head><meta http-equiv=\"refresh\" content=\"5;URL=http://"+MEUIP+":82/config\"></head>\n";
 
   buf += "<title>Domotica Config Cliente</title>\r\n";
   buf += "<meta name=\"viewport\" content=\"width=320\">\r\n";
@@ -587,6 +589,3 @@ void http_config_post() {
   saveConfig();
     
 }
-
-
-

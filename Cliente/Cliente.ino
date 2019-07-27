@@ -15,6 +15,7 @@
  *    V3.4D - ajuste das variáveis de DTH
  *    v3.5.2D - funcionando ok
  *    v3.5.4D - mudanca da msg de acionamento do mqtt para "change"
+ *    v3.5.5 - versão estavel apos recuperação dos arquivos perdidos
  */   
  
 #include <EEPROM.h>
@@ -63,7 +64,7 @@
 void http_reset(void);
 
 
-String versao = "3.5.4D";
+String versao = "3.5.5";
 
 
 int gpioPrimario[5] = {1};                //TX GPIO01     aba mudanca_interruptor, rst, ap, verificacao_status_lampada, http_config
