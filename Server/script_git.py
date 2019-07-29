@@ -10,6 +10,9 @@ changes_for_commit = False
 
 arquivo_copy = []
 
+
+os.system("echo executou >> log.txt")
+
 for line in lines:        
 
 	word = line.split()
