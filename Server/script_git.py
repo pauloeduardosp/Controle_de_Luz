@@ -50,7 +50,7 @@ if commit is True:										#executa o commit caso haja alterações
 #	exit()
 	os.system("git -C \"/home/github\" add .")
 	os.system("git -C \"/home/github\" commit -a -m \"commit remoto de script_git\"")
-	os.system("git -C \"/home/github\" push -u origin master")
+	os.system("git -C \"/home/github\" push -f -u origin master")
 	
 	
 #teste de envio 5
