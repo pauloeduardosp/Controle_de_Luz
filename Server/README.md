@@ -150,7 +150,7 @@ vi /var/www/html/index.html
 	</html>
 
 ```
-
+<br>
 
 ### 9. Criar repositório espelho do git hub
 
@@ -185,6 +185,7 @@ cp /home/github/Server/settings.js /root/.node-red
 cp /home/github/Server/script_git.py /root/.node-red
 cp /home/github/Server/lib/flows/*.json /root/.node-red/lib/flows/
 ```
+<br>
 
 ### 10. Criação estrutua local do git
 
@@ -207,8 +208,7 @@ echo package-lock.json >> .gitignore
 echo package.json >> .gitignore
 ```
 
-##################
-
+<br><br>
 ### Problema início automático ssh
 se tiver problema para ssh ao reiniciar a maquina
 incluir as linhas no arquivo
@@ -224,6 +224,6 @@ fi
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbODQ5NzQ3ODg2LC03MDUxODkyNDIsLTE4MT
-k0NTAzMDJdfQ==
+eyJoaXN0b3J5IjpbLTc4NTY1MzE3OCw4NDk3NDc4ODYsLTcwNT
+E4OTI0MiwtMTgxOTQ1MDMwMl19
 -->
