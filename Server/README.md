@@ -10,7 +10,7 @@ Descrição passo a passo de como instalar a vps do NVA com Ubuntu 16.04 do zero
 ```
 <br>
 
- ### 2. Instalar Curl  
+### 2. Instalar Curl  
 
 ```
    sudo apt-get install curl
@@ -18,7 +18,7 @@ Descrição passo a passo de como instalar a vps do NVA com Ubuntu 16.04 do zero
 
 <br>
 
- ### 3. Instalar nodejs V10
+### 3. Instalar nodejs V10
 
 
 ```
@@ -36,13 +36,13 @@ Descrição passo a passo de como instalar a vps do NVA com Ubuntu 16.04 do zero
 ```
 <br>
 
- ### 4. Instalar Node-Red
+### 4. Instalar Node-Red
 ```
 	   sudo npm install -g --unsafe-perm node-red node-red-admin
 ```
 <br>
 
- ### 5. Executar node-red no boot
+### 5. Executar node-red no boot
  
 Criar o arquivo
 	   sudo vi /etc/systemd/system/node-red.service
@@ -84,13 +84,13 @@ Como Reinicilizar o serviço
 ```
 <br>
 
- ### 6. Instalar o git
+### 6. Instalar o git
 ```
 	apt-get install git-core
 ```
 <br>
 
- ### 7. Instalar packets node-red
+### 7. Instalar packets node-red
 
 node-red-contrib-mqtt-broker 0.2.4
 ```
@@ -117,7 +117,7 @@ node-red-node-darksky 0.1.18
 
 <br>
 
- ### 8. Encaminhamento da home page
+### 8. Encaminhamento da home page
 Arquivo index para encaminhamento da porta 80 para 1880/ui
 ```
 cp /var/www/html/index.html /var/www/html/index.html.old
@@ -138,7 +138,7 @@ vi /var/www/html/index.html
 ```
 
 
- ### 9. Criar repositório espelho do git hub
+### 9. Criar repositório espelho do git hub
 
 Gerar a chave ssh e compartir no github
 ```
@@ -172,7 +172,7 @@ cp /home/github/Server/script_git.py /root/.node-red
 cp /home/github/Server/lib/flows/*.json /root/.node-red/lib/flows/
 ```
 
- ### 10. Criação estrutua local do git
+### 10. Criação estrutua local do git
 
 ```
 cd /root/.node-red
@@ -210,5 +210,5 @@ fi
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE4MTk0NTAzMDJdfQ==
+eyJoaXN0b3J5IjpbNjM3ODAwNTAyLC0xODE5NDUwMzAyXX0=
 -->
