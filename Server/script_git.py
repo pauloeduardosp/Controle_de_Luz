@@ -47,10 +47,9 @@ if commit is True:										#executa o commit caso haja alterações
 	for line in arquivo_copy:
 		os.system("cp /root/.node-red/" + line + " /home/github/Server/" + line)
 
-#	exit()
+	exit()
 	os.system("git -C \"/home/github\" add .")
 	os.system("git -C \"/home/github\" commit -a -m \"commit remoto de script_git\"")
 	os.system("git -C \"/home/github\" push -f -u origin master")
 	
 	
-#teste de envio 5
