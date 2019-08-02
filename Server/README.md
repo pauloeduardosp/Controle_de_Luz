@@ -1,7 +1,7 @@
 
 Descrição passo a passo de como instalar a vps do NVA com Ubuntu 16.04 do zero para utilização do node-red
 
-## Conteudo
+## Conteúdo
 
 [1. Atualizar a VPS](#1-atualizar-a-VPS)  
 [2. Instalar Curl  ](#2-Instalar-Curl)  
@@ -224,6 +224,6 @@ fi
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTUxNDM3NDA2MSwtNzA1MTg5MjQyLC0xOD
-E5NDUwMzAyXX0=
+eyJoaXN0b3J5IjpbODQ5NzQ3ODg2LC03MDUxODkyNDIsLTE4MT
+k0NTAzMDJdfQ==
 -->
