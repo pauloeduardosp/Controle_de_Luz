@@ -3,6 +3,16 @@ Descrição passo a passo de como instalar a vps do NVA com Ubuntu 16.04 do zero
 ##Conteudo
 
 [1. Atualizar a VPS](#1-atualizar-a-VPS)
+[2. Instalar Curl  ](#2-Instalar-Curl)
+[3. Instalar nodejs V10](#3-Instalar-nodejs-V10)
+[4. Instalar Node-Red](#4-Instalar-Node-Red)
+[5. Executar node-red no boot](#5-Executar-node-red-no-boot)
+[6. Instalar o git](#6-Instalar-o-git)
+[7. Instalar packets node-red](#7-Instalar-packets-node-red)
+[8. Encaminhamento da home page](#8-Encaminhamento-da-home-page)
+[9. Criar repositório espelho do git hub](#9-Criar-repositório-espelho-do-git-hub)
+[10. Criação estrutua local do git](#10-Criação-estrutua-local-do-git)
+[Problema início automático ssh](#Problema-início-automático-ssh)
 
 ### 1. Atualizar a VPS
 ```
@@ -213,5 +223,6 @@ fi
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTcwNTE4OTI0MiwtMTgxOTQ1MDMwMl19
+eyJoaXN0b3J5IjpbMjU1OTU3NSwtNzA1MTg5MjQyLC0xODE5ND
+UwMzAyXX0=
 -->
