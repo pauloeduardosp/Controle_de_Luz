@@ -1,5 +1,27 @@
 
 
+Descrição passo a passo de como instalar a vps do NVA com Ubuntu 16.04 do zero para utilização do node-red
+
+### 1. Atualizar a VPS
+```
+    apt-get update
+    apt-get install ca-certificates
+    reboot
+    sudo apt-get upgrade
+```
+<br>
+
+ ### 2. Instalar Curl  
+
+```
+   sudo apt-get install curl
+```
+
+<br>
+
+ ### 3. Instalar nodejs V10
+
+
 ```
    curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
    sudo apt-get install -y nodejs
@@ -188,5 +210,5 @@ if [ ! -d /var/run/sshd ]; then
 fi
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNjMxNDA5OTAwXX0=
+eyJoaXN0b3J5IjpbMTQ5MDM0NjU2Miw2MzE0MDk5MDBdfQ==
 -->
