@@ -72,6 +72,3 @@ void update_server(){
   }
 
 }
-
-
-

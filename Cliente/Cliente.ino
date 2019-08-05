@@ -185,6 +185,7 @@ void setup() {
   server.on("/config", HTTP_POST, http_config_post);  //pagina http de confiugaracao do modulo - aba http_config
   server.on("/update_server", HTTP_GET, update_server);
   server.on("/update_server", HTTP_POST, update_server);
+  server.on("/teste", HTTP_GET, teste_http);
   server.begin();
 
 
@@ -224,7 +225,7 @@ for(int x=0; x<=10; x++){
   EEPROM.write(EEPROM_qtdReset, 0);       // função reset constante
   EEPROM.commit();                        // função reset constante
 
-
+  funcao_teste();               // teste para verificação de desconexão
 }
 
 
@@ -247,6 +248,7 @@ void loop() {
   verificacao_status_lampada();   // monitora o status da lampada - aba verificacao_status_lampada
   update_inicial();               // envia update inicial do modulo - aba update_inicial
   telnet();                       // monitoria via telnet - aba telnet
+  
 
 
 
