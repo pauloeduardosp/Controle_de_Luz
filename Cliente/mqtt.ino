@@ -115,30 +115,30 @@ void reconnect() {
   
           String value;
           String payloadTestamento;
-          payloadTestamento = "{\"";
-          payloadTestamento += "ip\":\""+WiFi.localIP().toString()+"\"";
-          payloadTestamento += ",";
-          payloadTestamento += "\"device\":\""+mqttDeviceId;
-          payloadTestamento += "\",";
-          payloadTestamento += "\"versao\":\""+versao+"\"";
-          payloadTestamento += ",";
+          payloadTestamento = "{";
+          payloadTestamento += "\"device\":\""+mqttDeviceId+"\""; 
+          payloadTestamento += ",";        
           payloadTestamento += "\"status\":\"red\"";
           payloadTestamento += "}";
-      
-      char* c_payloadTestamento = &payloadTestamento[0u];
-  
-      char* c_mqttDeviceId =  &mqttDeviceId[0u];
-  
-        String  s_topicTestamento = mqttPlaceId;
-                s_topicTestamento += "/status";
-        char*   c_topicTestamento = &s_topicTestamento[0u];
-  
-        if (client.connect(c_mqttDeviceId, c_topicTestamento, 1, false, c_payloadTestamento)) {    
+
+    
+        char* c_payloadTestamento = &payloadTestamento[0u];
         
+        char* c_mqttDeviceId =  &mqttDeviceId[0u];
+        
+        String  s_topicTestamento = mqttPlaceId;
+              s_topicTestamento += "/status";
+        char*   c_topicTestamento = &s_topicTestamento[0u];
+        
+        char* c_mqttUser = &mqttUser[0u];
+        char* c_mqttPass = &mqttPass[0u];;
+  
+        if (client.connect(c_mqttDeviceId, c_mqttUser, c_mqttPass, c_topicTestamento, 0, 0, c_payloadTestamento)){
+//        if (client.connect(c_mqttDeviceId,  mqttUser, mqttPass)) {       //original
           Serial.println("connected");  
           // Subscribe or resubscribe to a topic
           // You can subscribe to more topics (to control more LEDs in this example)
-          verificacaoStatusLampada = true;          // variavel para fazer update apos conexão
+          verificacaoStatusLampada = true;          // variavel para fazer update apos conexãov
           mqttUpdate = true;
           Serial.print("############# mqttUpdate ");
           Serial.println(mqttUpdate);

@@ -154,14 +154,14 @@ teste_funcao();
   buf += "<table>\r\n";
   buf += "  <BR>\r\n";
   buf += "  <tr>\r\n";
-  buf += "    <td width = 125px><label>SSID: </label></td>\r\n";
+  buf += "    <td width = 125px><label>Wifi SSID: </label></td>\r\n";
   value = String(wifi.ssid);
   buf += "    <td><input name=POST_wifi_ssid  type=text value=\""+value+"\" size=\"20\"></td>\r\n";
   buf += "  </tr>\r\n";
 
 
   buf += "  <tr>\r\n";
-  buf += "    <td><label>Senha: </label></td>\r\n";
+  buf += "    <td><label>Wifi Senha: </label></td>\r\n";
   value = String(wifi.password);
   buf += "    <td><input type=\"password\" name=POST_wifi_password type=text  value=\""+value+"\" size=20></td>\r\n";
   buf += "  </tr>\r\n";
@@ -172,6 +172,16 @@ teste_funcao();
   buf += "    <td><input name=POST_mqttServer type=text value=\""+value+"\" size=20></td>\r\n";
   buf += "  </tr>\r\n";
 
+  buf += "    <td width = 125px><label>Mqtt User: </label></td>\r\n";
+  value = String(mqttUser);
+  buf += "    <td><input name=POST_mqttUser  type=text value=\""+value+"\" size=\"20\"></td>\r\n";
+  buf += "  </tr>\r\n";
+
+  buf += "  <tr>\r\n";
+  buf += "    <td><label>Mqtt Senha: </label></td>\r\n";
+  value = String(mqttPass);
+  buf += "    <td><input type=\"password\" name=POST_mqttPass type=\"password\" value=\""+value+"\" size=20></td>\r\n";
+  buf += "  </tr>\r\n";
 
   //############################################
   // script
@@ -420,7 +430,6 @@ void http_config_post() {
   } 
 
 
-
   if(server.arg("POST_qtdLuz").toInt() != 0){
     if(qtdLuz !=server.arg("POST_qtdLuz").toInt()){
       qtdLuz = server.arg("POST_qtdLuz").toInt();
@@ -431,6 +440,14 @@ void http_config_post() {
   if(server.arg("POST_mqttServer") != ""){
     mqttServer = String(server.arg("POST_mqttServer")) ;
   }
+
+  if(server.arg("POST_mqttUser") != ""){
+    mqttUser = String(server.arg("POST_mqttUser")) ;
+  } 
+
+  if(server.arg("POST_mqttPass") != ""){
+    mqttPass = String(server.arg("POST_mqttPass")) ;
+  } 
 
   for(int p = 0; p < qtdLuz; p++){
     String POST_gpioPrimario = "POST_gpioPrimario";
@@ -496,6 +513,17 @@ void http_config_post() {
   buf += "<td><label>"+value+"</label></td>\r\n";
   buf += "</tr>\r\n";
 
+  buf += "<tr>\r\n";
+  buf += "<td><label>MQTT User: &nbsp&nbsp </label></td>\r\n";
+  value = String(mqttUser);
+  buf += "<td><label>"+value+"</label></td>\r\n";
+  buf += "</tr>\r\n";
+
+  buf += "<tr>\r\n";
+  buf += "<td><label>MQTT Senha: &nbsp&nbsp </label></td>\r\n";
+  value = String(mqttPass);
+  buf += "<td><label>"+value+"</label></td>\r\n";
+  buf += "</tr>\r\n";
 
   buf += "<tr>\r\n";
   buf += "<td><label>Quantidade de Device:</label></td>\r\n";

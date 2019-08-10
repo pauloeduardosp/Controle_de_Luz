@@ -52,6 +52,41 @@ void saveConfig() {
     }   
   }
 
+
+  char temp_mqttUser[40];
+  for(unsigned int p=0; p <=  sizeof(mqttUser); p++){   
+    *((char*)&temp_mqttUser + p) = EEPROM.read(EEPROM_mqttUser + p);    // grava dados EEPROM_mqttUser na variavale temp_mqttUser
+  }
+  char char_mqttUser[40];
+  mqttUser.toCharArray(char_mqttUser, 40);                              // converte string mqttUser em charArray 
+//  mqttUser = char_mqttUser;
+  if(String(temp_mqttUser) != mqttUser){                                // compara se houve alteraçao na variavel mqttUser
+//    reset = true;
+    Serial.print("[EEPROM SAVE] Atualizando mqttUser na eeprom para ");
+    Serial.println(mqttUser);
+    for(unsigned int p=0; p <= mqttUser.length(); p++){
+      EEPROM.write(EEPROM_mqttUser + p, *((char*)&char_mqttUser + p));  // grava novo dado na eemprom
+    }   
+  }
+
+  char temp_mqttPass[40];
+  for(unsigned int p=0; p <=  sizeof(mqttPass); p++){   
+    *((char*)&temp_mqttPass + p) = EEPROM.read(EEPROM_mqttPass + p);    // grava dados EEPROM_mqttPass na variavale temp_mqttPass
+  }
+  char char_mqttPass[40];
+  mqttPass.toCharArray(char_mqttPass, 40);                              // converte string mqttPass em charArray 
+//  mqttPass = char_mqttPass;
+  if(String(temp_mqttPass) != mqttPass){                                // compara se houve alteraçao na variavel mqttPass
+//    reset = true;
+    Serial.print("[EEPROM SAVE] Atualizando mqttPass na eeprom para ");
+    Serial.println(mqttPass);
+    for(unsigned int p=0; p <= mqttPass.length(); p++){
+      EEPROM.write(EEPROM_mqttPass + p, *((char*)&char_mqttPass + p));  // grava novo dado na eemprom
+    }   
+  }
+
+
+
   // ##################### Config Device
   // ##################### QtdLuz
 
@@ -196,6 +231,34 @@ void loadConfig(){
     mqttServer = char_mqttServer;
     Serial.printf("[EEPROM LOAD] Atualizando mqttServer para ");
     Serial.println(mqttServer);
+    
+  }
+
+// ##################### Mqtt User
+
+  if(EEPROM.read(EEPROM_mqttUser) != 255){ 
+    char char_mqttUser[40];
+    for(unsigned int p=0; p <=  40; p++){   
+      *((char*)&char_mqttUser + p) = EEPROM.read(EEPROM_mqttUser + p);   // grava dados EEPROM_mqttUser na variavale temp_mqttUser
+
+    }
+    mqttUser = char_mqttUser;
+    Serial.printf("[EEPROM LOAD] Atualizando mqttUser para ");
+    Serial.println(mqttUser);
+    
+  }
+
+// ##################### Mqtt Pass
+
+  if(EEPROM.read(EEPROM_mqttPass) != 255){ 
+    char char_mqttPass[40];
+    for(unsigned int p=0; p <=  40; p++){   
+      *((char*)&char_mqttPass + p) = EEPROM.read(EEPROM_mqttPass + p);   // grava dados EEPROM_mqttPass na variavale temp_mqttPass
+
+    }
+    mqttPass = char_mqttPass;
+    Serial.printf("[EEPROM LOAD] Atualizando mqttPass para ");
+    Serial.println(mqttPass);
     
   }
 
