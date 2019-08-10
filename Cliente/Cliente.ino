@@ -1,21 +1,8 @@
 /*
- *Quarto
- *    V3 para ESP01
- *    V2 Rodando como server para o quarto
- *    V3 Implementação de comunicação entre os ambientes via protocolo biblioteca WebSocketsServer
- *       Utilização do WifiMAnager
- *       Exclusão da pagina HTTP para controle da luz
- *       Criação de pagina HTTP para reset do modulo
- *    V4 Implementação de abas no sketch - 22/06/2016
- *       Mudança do OTA via web arr
- *    vo
- *    ###########################################
- *    
- *    V3.3D - dth e mqtt funcionando ok
- *    V3.4D - ajuste das variáveis de DTH
- *    v3.5.2D - funcionando ok
- *    v3.5.4D - mudanca da msg de acionamento do mqtt para "change"
+ * Cliente
+ *
  *    v3.5.5 - versão estavel apos recuperação dos arquivos perdidos
+ *    v3.5.6 - autenticação no usuario mqtt
  */   
  
 #include <EEPROM.h>
@@ -60,11 +47,13 @@
 #define EEPROM_mqttAtuadorId2 170     // tamanho total 40 bytes
 #define EEPROM_mqttAtuadorId3 210     // tamanho total 40 bytes
 #define EEPROM_mqttServer 250         // tamanho total 40 bytes
+#define EEPROM_mqttUser 290            // tamanho total 20 bytes
+#define EEPROM_mqttPass 310            // tamanho total 20 bytes
 
 void http_reset(void);
 
 
-String versao = "3.5.5";
+String versao = "3.5.6";
 
 
 int gpioPrimario[5] = {1};                //TX GPIO01     aba mudanca_interruptor, rst, ap, verificacao_status_lampada, http_config
@@ -82,6 +71,8 @@ String mqttDeviceId = "newdevice";
 String mqttPlaceId;
 char* char_mqttDeviceId = &mqttDeviceId[0u];
 String mqttServer;
+String mqttUser;
+String mqttPass;
 
 String mqttAtuadorId[5] = {"newdevice/atuador0", "newdevice/atuador1","newdevice/atuador2","newdevice/atuador3", "newdevice/atuador4"};
 
@@ -207,6 +198,7 @@ void setup() {
   server.on("/reset",http_reset);                     // h_r
   server.on("/config", http_config);  //pagina http de confiugaracao do modulo - aba http_config
   server.on("/configpost", HTTP_POST, http_config_post);  //pagina http de confiugaracao do modulo - aba http_config
+
   server.begin();
 
 
