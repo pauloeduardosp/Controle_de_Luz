@@ -221,7 +221,64 @@ echo node_modules/ >> .gitignore
 echo package-lock.json >> .gitignore
 echo package.json >> .gitignore
 ```
+### 11. Instalar EMQx
 
+#### Baixar o EMQx
+```
+cd / && wget https://www.emqx.io/downloads/broker/v3.2.2/emqx-ubuntu16.04-v3.2.2.zip
+```
+<br>
+Descompactar
+unzip emqx-ubuntu16.04-v3.2.2.zip
+
+Apagar arquivo ZIP
+rm emqx-ubuntu16.04-v3.2.2.zip
+
+Iniciar EMQx no modo console para veriricar se tem algum erro
+cd /emqx && ./bin/emqx console
+
+Resultado
+
+Starting emqx on node emqx@127.0.0.1
+Start http:management listener on 8080 successfully.
+Start http:dashboard listener on 18083 successfully.
+Start mqtt:tcp listener on 127.0.0.1:11883 successfully.
+Start mqtt:tcp listener on 0.0.0.0:1883 successfully.
+Start mqtt:ws listener on 0.0.0.0:8083 successfully.
+Start mqtt:ssl listener on 0.0.0.0:8883 successfully.
+Start mqtt:wss listener on 0.0.0.0:8084 successfully.
+EMQ X Broker 3.2.2 is running now!
+
+sair console crtl+z
+
+Iniciarliar EMQx	
+cd /emqx && ./bin/emqx start
+
+Dashboard http://x.x.x.x:18083
+
+user: admin
+pass: public
+
+
+- Alterar senha de admin
+https://i.imgur.com/ep3n8ht.jpg
+
+- Inicializar serviço de autenticação Plugins/emqx_auth_username
+https://i.imgur.com/jpfYSCU.jpg
+
+
+- Criar usuário mqtt - 
+cd /emqx && ./bin/emqx_ctl users add iotpaulo i0tp4ul0
+
+mudar config para negar login anonymous
+cd /emqx && vi /emqx/etc/emqx.conf
+
+mudar parametro (linha 447 do arquivo)
+dentro do vi usar : para pular para a liha
+ou / para procurar o parametro "allow_anonymous"
+allow_anonymous = false
+
+./bin/emqx restart
 <br><br>
 ### Problema início automático ssh
 se tiver problema para ssh ao reiniciar a maquina
@@ -238,6 +295,6 @@ fi
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMzE0ODgxMSwtNzg1NjUzMTc4LDg0OTc0Nz
-g4NiwtNzA1MTg5MjQyLC0xODE5NDUwMzAyXX0=
+eyJoaXN0b3J5IjpbLTIxMDU4MDQ4MSwtNzg1NjUzMTc4LDg0OT
+c0Nzg4NiwtNzA1MTg5MjQyLC0xODE5NDUwMzAyXX0=
 -->
