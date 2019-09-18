@@ -162,6 +162,15 @@ Gerar a chave ssh e compartir no github
 ```
 	ssh-keygen 
 ```
+
+Copiar a chave em   
+more /root/.ssh/id_rsa.pub  
+
+Compartiar a Chave no Github  
+
+ ![Compartiar a Chave no Github](https://i.imgur.com/SXYkFsR.jpg)
+
+
 Criar repositório espelho do github e baixa arquivos
 
 ```
