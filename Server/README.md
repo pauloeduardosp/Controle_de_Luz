@@ -223,16 +223,24 @@ echo package.json >> .gitignore
 ```
 ### 11. Instalar EMQx
 
-#### Baixar o EMQx
+Baixar o EMQx
 ```
 cd / && wget https://www.emqx.io/downloads/broker/v3.2.2/emqx-ubuntu16.04-v3.2.2.zip
 ```
 <br>
-Descompactar
+
+Descompactar  
+```
 unzip emqx-ubuntu16.04-v3.2.2.zip
+```
+<br>
+
 
 Apagar arquivo ZIP
+```
 rm emqx-ubuntu16.04-v3.2.2.zip
+```
+<br>
 
 Iniciar EMQx no modo console para veriricar se tem algum erro
 cd /emqx && ./bin/emqx console
@@ -295,6 +303,7 @@ fi
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIxMDU4MDQ4MSwtNzg1NjUzMTc4LDg0OT
-c0Nzg4NiwtNzA1MTg5MjQyLC0xODE5NDUwMzAyXX0=
+eyJoaXN0b3J5IjpbMTgwOTI5OTcyNywtMjEwNTgwNDgxLC03OD
+U2NTMxNzgsODQ5NzQ3ODg2LC03MDUxODkyNDIsLTE4MTk0NTAz
+MDJdfQ==
 -->
