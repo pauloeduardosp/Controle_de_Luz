@@ -86,11 +86,12 @@ Criar diretório
    mkdir /home/root
 ```
 Executar os comandos
+```
    sudo systemctl daemon-reload
    sudo systemctl enable node-red.service
    sudo systemctl start node-red.service
    sudo systemctl status node-red.service
-
+```
 
 Como Reinicilizar o serviço
 ```
