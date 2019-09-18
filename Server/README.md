@@ -281,14 +281,14 @@ pass: public
 -  ![Alterar senha de dmin](https://i.imgur.com/ep3n8ht.jpg)
 
 - Inicializar serviço de autenticação Plugins/emqx_auth_username
-- ![iniciarlizar Servico]
-https://i.imgur.com/jpfYSCU.jpg
-
+- ![iniciarlizar Servico](https://i.imgur.com/jpfYSCU.jpg)
 
 - Criar usuário mqtt - 
-cd /emqx && ./bin/emqx_ctl users add iotpaulo i0tp4ul0
+```
+	cd /emqx && ./bin/emqx_ctl users add iotpaulo i0tp4ul0
+```
 
-mudar config para negar login anonymous
+-Mudar config para negar login anonymous
 cd /emqx && vi /emqx/etc/emqx.conf
 
 mudar parametro (linha 447 do arquivo)
@@ -313,7 +313,7 @@ fi
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTE1OTYwMzI5MSwtMjEwNTgwNDgxLC03OD
-U2NTMxNzgsODQ5NzQ3ODg2LC03MDUxODkyNDIsLTE4MTk0NTAz
-MDJdfQ==
+eyJoaXN0b3J5IjpbLTEyNDg3NzE1NzUsLTIxMDU4MDQ4MSwtNz
+g1NjUzMTc4LDg0OTc0Nzg4NiwtNzA1MTg5MjQyLC0xODE5NDUw
+MzAyXX0=
 -->
