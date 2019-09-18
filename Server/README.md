@@ -303,6 +303,15 @@ ou "**/**" para procurar o parametro "allow_anonymous"
 
 Despois de editar o arquivo é necessário fazer um restart no serviço
 ./bin/emqx restart
+#### Inicialiar EMQx no boot
+É necessário incluir o serviço na crontab
+```
+crontab -e
+```
+e incluir a linha 
+```
+@reboot /emqx/bin/emqx start
+```
 
 <br><br>
 ### Problema início automático ssh
@@ -320,7 +329,7 @@ fi
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNzY1NDQ3MjM2LC0yMTA1ODA0ODEsLTc4NT
-Y1MzE3OCw4NDk3NDc4ODYsLTcwNTE4OTI0MiwtMTgxOTQ1MDMw
-Ml19
+eyJoaXN0b3J5IjpbMTk1MzE4MjcxNCwtMjEwNTgwNDgxLC03OD
+U2NTMxNzgsODQ5NzQ3ODg2LC03MDUxODkyNDIsLTE4MTk0NTAz
+MDJdfQ==
 -->
