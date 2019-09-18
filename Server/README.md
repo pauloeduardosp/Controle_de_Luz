@@ -13,7 +13,7 @@ Descrição passo a passo de como instalar a vps do NVA com Ubuntu 16.04 do zero
 [8. Encaminhamento da home page](#8-Encaminhamento-da-home-page)  
 [9. Criar repositório espelho do git hub](#9-Criar-repositório-espelho-do-git-hub)  
 [10. Criação estrutua local do git](#10-Criação-estrutua-local-do-git)  
-[11. Instalar EMQx](#11-Instalar-EMQx)
+[11. Instalar EMQx](#11-Instalar-EMQx)  
 [Problema início automático ssh](#Problema-início-automático-ssh)  
 
 ### 1. Atualizar a VPS
@@ -330,7 +330,7 @@ fi
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE3MzA2MzAyMzYsMTk1MzE4MjcxNCwtMj
-EwNTgwNDgxLC03ODU2NTMxNzgsODQ5NzQ3ODg2LC03MDUxODky
-NDIsLTE4MTk0NTAzMDJdfQ==
+eyJoaXN0b3J5IjpbNzMyMjI0MDM2LC0xNzMwNjMwMjM2LDE5NT
+MxODI3MTQsLTIxMDU4MDQ4MSwtNzg1NjUzMTc4LDg0OTc0Nzg4
+NiwtNzA1MTg5MjQyLC0xODE5NDUwMzAyXX0=
 -->
