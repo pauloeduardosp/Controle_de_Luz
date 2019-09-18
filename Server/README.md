@@ -58,8 +58,8 @@ Descrição passo a passo de como instalar a vps do NVA com Ubuntu 16.04 do zero
 
 ### 5. Executar node-red no boot
  
-Criar o arquivo
-	   sudo vi /etc/systemd/system/node-red.service
+Criar o arquivo  
+	   sudo vi /etc/systemd/system/node-red.service  
 Com as seguintes informações abaixo
  ```
 [Unit]
