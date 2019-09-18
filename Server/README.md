@@ -273,7 +273,7 @@ cd /emqx && ./bin/emqx start
 
 Dashboard 
 
-http://x.x.x.x:18083
+http://x.x.x.x:18083  
 user: admin
 pass: public
 
@@ -330,7 +330,8 @@ fi
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNzMyMjI0MDM2LC0xNzMwNjMwMjM2LDE5NT
-MxODI3MTQsLTIxMDU4MDQ4MSwtNzg1NjUzMTc4LDg0OTc0Nzg4
-NiwtNzA1MTg5MjQyLC0xODE5NDUwMzAyXX0=
+eyJoaXN0b3J5IjpbLTE5NzQwMTU5NjQsNzMyMjI0MDM2LC0xNz
+MwNjMwMjM2LDE5NTMxODI3MTQsLTIxMDU4MDQ4MSwtNzg1NjUz
+MTc4LDg0OTc0Nzg4NiwtNzA1MTg5MjQyLC0xODE5NDUwMzAyXX
+0=
 -->
