@@ -298,10 +298,12 @@ mudar parametro (linha 447 do arquivo)
 allow_anonymous = false
 ```
 Dica - 
-dentro do vi usar *:* para pular para a linha
-ou / para procurar o parametro "allow_anonymous"
+dentro do vi usar "**:**" para pular para a linha
+ou "**/**" para procurar o parametro "allow_anonymous"
 
+Despois de editar o arquivo é necessário fazer um restart no serviço
 ./bin/emqx restart
+
 <br><br>
 ### Problema início automático ssh
 se tiver problema para ssh ao reiniciar a maquina
@@ -318,7 +320,7 @@ fi
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE4NzcwMTQ1NjEsLTIxMDU4MDQ4MSwtNz
-g1NjUzMTc4LDg0OTc0Nzg4NiwtNzA1MTg5MjQyLC0xODE5NDUw
-MzAyXX0=
+eyJoaXN0b3J5IjpbNzY1NDQ3MjM2LC0yMTA1ODA0ODEsLTc4NT
+Y1MzE3OCw4NDk3NDc4ODYsLTcwNTE4OTI0MiwtMTgxOTQ1MDMw
+Ml19
 -->
