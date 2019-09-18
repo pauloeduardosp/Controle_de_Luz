@@ -107,6 +107,9 @@ Como Reinicilizar o serviço
 
 ### 7. Instalar packets node-red
 
+Parar o serviço do nodered para instalar os pacotes  
+	sudo systemctl stop node-red.service
+
 node-red-contrib-mqtt-broker 0.2.4
 ```
 	npm install -g node-red-contrib-mqtt-broker
