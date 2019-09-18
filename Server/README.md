@@ -287,14 +287,19 @@ pass: public
 ```
 	cd /emqx && ./bin/emqx_ctl users add iotpaulo i0tp4ul0
 ```
+<br>
 
 -Mudar config para negar login anonymous
+```
 cd /emqx && vi /emqx/etc/emqx.conf
-
-mudar parametro (linha 447 do arquivo)
-dentro do vi usar : para pular para a liha
-ou / para procurar o parametro "allow_anonymous"
+```
+mudar parametro (linha 447 do arquivo) 
+```
 allow_anonymous = false
+```
+Dica - 
+dentro do vi usar *:* para pular para a linha
+ou / para procurar o parametro "allow_anonymous"
 
 ./bin/emqx restart
 <br><br>
@@ -313,7 +318,7 @@ fi
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyNDg3NzE1NzUsLTIxMDU4MDQ4MSwtNz
+eyJoaXN0b3J5IjpbLTE4NzcwMTQ1NjEsLTIxMDU4MDQ4MSwtNz
 g1NjUzMTc4LDg0OTc0Nzg4NiwtNzA1MTg5MjQyLC0xODE5NDUw
 MzAyXX0=
 -->
