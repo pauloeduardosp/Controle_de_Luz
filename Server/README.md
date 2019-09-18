@@ -278,9 +278,10 @@ pass: public
 
 
 - Alterar senha de admin
-https://i.imgur.com/ep3n8ht.jpg
+-  ![Alterar senha de dmin](https://i.imgur.com/ep3n8ht.jpg)
 
 - Inicializar serviço de autenticação Plugins/emqx_auth_username
+- ![iniciarlizar Servico]
 https://i.imgur.com/jpfYSCU.jpg
 
 
@@ -312,7 +313,7 @@ fi
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyNzM3MjIxLC0yMTA1ODA0ODEsLTc4NT
-Y1MzE3OCw4NDk3NDc4ODYsLTcwNTE4OTI0MiwtMTgxOTQ1MDMw
-Ml19
+eyJoaXN0b3J5IjpbMTE1OTYwMzI5MSwtMjEwNTgwNDgxLC03OD
+U2NTMxNzgsODQ5NzQ3ODg2LC03MDUxODkyNDIsLTE4MTk0NTAz
+MDJdfQ==
 -->
