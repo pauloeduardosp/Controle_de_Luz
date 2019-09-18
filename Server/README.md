@@ -242,11 +242,15 @@ rm emqx-ubuntu16.04-v3.2.2.zip
 ```
 <br>
 
+
 Iniciar EMQx no modo console para veriricar se tem algum erro
+```
 cd /emqx && ./bin/emqx console
+```
+<br>
 
 Resultado
-
+```
 Starting emqx on node emqx@127.0.0.1
 Start http:management listener on 8080 successfully.
 Start http:dashboard listener on 18083 successfully.
@@ -256,14 +260,19 @@ Start mqtt:ws listener on 0.0.0.0:8083 successfully.
 Start mqtt:ssl listener on 0.0.0.0:8883 successfully.
 Start mqtt:wss listener on 0.0.0.0:8084 successfully.
 EMQ X Broker 3.2.2 is running now!
-
+```
 sair console crtl+z
+<br>
 
 Iniciarliar EMQx	
+```
 cd /emqx && ./bin/emqx start
+```
+<br>
 
-Dashboard http://x.x.x.x:18083
+Dashboard 
 
+http://x.x.x.x:18083
 user: admin
 pass: public
 
@@ -303,7 +312,7 @@ fi
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTgwOTI5OTcyNywtMjEwNTgwNDgxLC03OD
-U2NTMxNzgsODQ5NzQ3ODg2LC03MDUxODkyNDIsLTE4MTk0NTAz
-MDJdfQ==
+eyJoaXN0b3J5IjpbLTEyNzM3MjIxLC0yMTA1ODA0ODEsLTc4NT
+Y1MzE3OCw4NDk3NDc4ODYsLTcwNTE4OTI0MiwtMTgxOTQ1MDMw
+Ml19
 -->
