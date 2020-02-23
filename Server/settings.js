@@ -127,12 +127,13 @@ module.exports = {
 	adminAuth: {
         	type: "credentials",
         	users: [{
-	            username: "admin",	
-		    password: "$2a$08$Z6LBapwAOkQwghnDAfzwGu4WxEIGBngEJLJtTVUdgkDHuD6.4zou6",
+//	            username: "admin",	
+//				password: "$2a$08$Z6LBapwAOkQwghnDAfzwGu4WxEIGBngEJLJtTVUdgkDHuD6.4zou6",
+				username: "pauloadmin",
+				password: "$2b$08$xT3uHLCwASifKDHesK0X8uSPybpyNIoOjG9OBqPdFii9cxQ.jD60e",
        		    permissions: "*"
 	        } ]
 	},
-
 
     // To password protect the node-defined HTTP endpoints (httpNodeRoot), or
     // the static content (httpStatic), the following properties can be used.
