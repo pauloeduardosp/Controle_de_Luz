@@ -9,6 +9,13 @@ void wifi_ap(){
 //#### função parar de divulgar AP
   if(WiFi.status() != WL_CONNECTED){
     divulgaAP = true;
+    wifiConnected = false;
+  } else if(wifiConnected == false ){
+    wifiConnected = true;
+    Serial.print("[wifi_ap] Wifi conectado a rede ");
+    Serial.println(WiFi.SSID());
+    Serial.print("[wifi_ap] IP do Modulo ");
+    Serial.println(WiFi.localIP());
   }
   
   if(divulgaAP){

@@ -1,1 +1,4 @@
-05/08 implementar senha cliente mqtt
+05/08 implementar senha cliente mqtt - ok
+
+
+arrumar pagina config interrupor não muda paralelo/ligado ao gpio

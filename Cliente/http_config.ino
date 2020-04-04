@@ -1,11 +1,3 @@
-/*
- * 
- *
- * tste ajax script antigo
- *
- */
-
-  
 void http_config() {
 Serial.println(" [HTTP_C] Entrou na funcao http_config()");
 
@@ -150,7 +142,7 @@ teste_funcao();
 
 // ####################################################
 // Config Cliente
-
+  
   buf += "<table>\r\n";
   buf += "  <BR>\r\n";
   buf += "  <tr>\r\n";
@@ -215,7 +207,7 @@ teste_funcao();
     buf += "    var selectedValue"+valuep+" = IDtipoDispositivo"+valuep+".value;\r\n";
     buf += "  xhttp.send(\"POST_Update=tipoDispositivo"+valuep+"&Post_tipoDispositivo"+valuep+"=\"+selectedValue"+valuep+"+\"\");\r\n";  // funciona
     buf += "}\r\n";
-  }    
+  }  
     buf += "</script>\r\n";
 
 // fim script
@@ -248,7 +240,7 @@ teste_funcao();
   buf += "<hr align=\"center\" width=\"380\" size=\"3\" color=black>\r\n";
 
   // ####################################################
-  // Configuração Luz
+  // Configuração Dispositivo
 
   buf += "<h3> Configuração Dispositivo</h3>\r\n";
  
@@ -257,6 +249,7 @@ teste_funcao();
   buf += "  <tr aligh = left>\r\n";
   buf += "    <td width=\"50px\"><label> &nbsp </label></td>\r\n";
   buf += "    <td width=\"50px\"><label> GPIO:</label></td>\r\n";
+  buf += "    <td width=\"50px\"><label> &nbsp </label></td>\r\n";
   buf += "    <td width=\"50px\"><label> Interruptor: </label></td>\r\n"; 
   buf += "    <td width=\"50px\"><label> GPIO:</label></td>\r\n"; 
   buf += "    <td width=\"50px\"><label> MQTT: </label></td>\r\n"; 
@@ -275,10 +268,12 @@ teste_funcao();
         buf += "    <option value=\"1\">Luz</option>\r\n";
         buf += "    <option value=\"2\">DTH11</option>\r\n";
         buf += "    <option value=\"3\">DTH21</option>\r\n";
+        buf += "    <option value=\"4\">Tomada</option>\r\n";
         buf += "    </select>\r\n";
         buf += "  </td>\r\n";
 
         buf += "  <td align = left> <label> ----- </label> </td>  \r\n";
+        buf += "  <td align = center> <label> ----- </label> </td>\r\n";
         buf += "  <td align = center> <label> ----- </label> </td>\r\n";
         buf += "  <td align = left> <label> ----- </label> </td>  \r\n";
         buf += "  <td align = left> <label> ----- </label> </td>  \r\n";
@@ -292,25 +287,26 @@ teste_funcao();
         buf += "    <option value=\"1\" selected>Luz</option>\r\n";
         buf += "    <option value=\"2\">DHT11</option>\r\n";
         buf += "    <option value=\"3\">DHT21</option>\r\n";
+        buf += "    <option value=\"4\">Tomada</option>\r\n";
         buf += "    </select>\r\n";
         buf += "  </td>\r\n";
 
         value = String(gpioPrimario[p]);
         buf += "    <td><input type=\"number\" name=POST_gpioPrimario"+valuep+" type=text value="+value+"></td>\r\n";
+        buf += "    <td align = left> <label> - </label> </td>\r\n";
+
         buf += "    <td>\r\n";
-       
         buf += "    <select name=\"POST_tipoInterruptor"+valuep+"\">\r\n";
-          if(tipoInterruptor[p] == 1){
-            buf += "      <option value=\"1\" selected>Paralelo</option>\r\n";
-          } else {
+        if(tipoInterruptor[p] == 1){
+          buf += "      <option value=\"1\" selected>Paralelo</option>\r\n";
+        } else {
             buf += "      <option value=\"1\">Paralelo</option>\r\n";
-          }
-      
-          if(tipoInterruptor[p] == 2){
-            buf += "      <option value=\"2\" selected>ligado no Gpio</option>\r\n";
-          } else {
+        }
+        if(tipoInterruptor[p] == 2){
+          buf += "      <option value=\"2\" selected>ligado no Gpio</option>\r\n";
+        } else {
             buf += "      <option value=\"2\">ligado no Gpio</option>\r\n";
-          }
+        }
         buf += "      </select>\r\n";
         buf += "    </td>\r\n";
 
@@ -330,12 +326,14 @@ teste_funcao();
         buf += "    <option value=\"1\">Luz</option>\r\n";
         buf += "    <option value=\"2\" selected>DHT11</option>\r\n";
         buf += "    <option value=\"3\">DHT21</option>\r\n";
+        buf += "    <option value=\"4\">Tomada</option>\r\n";
         buf += "    </select>\r\n";
         buf += "  </td>\r\n";      
       
         value = String(gpioPrimario[p]);
         buf += "    <td><input type=\"number\" name=POST_gpioPrimario"+valuep+" type=text value="+value+"></td>\r\n";
 
+        buf += "    <td align = center> <label> - </label> </td>\r\n";
         buf += "    <td align = center name=\"POST_tipoInterruptor"+valuep+"\" value=\"0\"> <label> ----- </label> </td>\r\n";
         buf += "    <td align = left> <label> ----- </label> </td>\r\n";
 
@@ -351,11 +349,50 @@ teste_funcao();
         buf += "    <option value=\"1\">Luz</option>\r\n";
         buf += "    <option value=\"2\">DHT11</option>\r\n";
         buf += "    <option value=\"3\" selected>DHT21</option>\r\n";
+        buf += "    <option value=\"4\">Tomada</option>\r\n";
         buf += "    </select>\r\n";
         buf += "  </td>\r\n";      
       
         value = String(gpioPrimario[p]);
         buf += "    <td><input type=\"number\" name=POST_gpioPrimario"+valuep+" type=text value="+value+"></td>\r\n";
+
+        buf += "    <td align = center> <label> - </label> </td>\r\n";
+        buf += "    <td align = center name=\"POST_tipoInterruptor"+valuep+"\" value=\"0\"> <label> ----- </label> </td>\r\n";
+        buf += "    <td align = left> <label> ----- </label> </td>\r\n";
+
+        value = String(mqttAtuadorId[p]);
+        buf += "    <td><input name=POST_mqttAtuadorId"+valuep+" type=text value=\""+value+"\" size=\""+value+"\"></td>\r\n";
+
+      break;
+
+      case 4:      // Tomada
+        buf += "  <td>\r\n";
+        buf += "    <select id=\"IDtipoDispositivo"+valuep+"\" onchange=\"tipoDispositivo"+valuep+"()\"  name=POST_tipoDispositivo"+valuep+">\r\n";
+        buf += "    <option value=\"0\">Definir</option>\r\n";
+        buf += "    <option value=\"1\">Luz</option>\r\n";
+        buf += "    <option value=\"2\">DHT11</option>\r\n";
+        buf += "    <option value=\"3\">DHT21</option>\r\n";
+        buf += "    <option value=\"4\" selected>Tomada</option>\r\n";
+        buf += "    </select>\r\n";
+        buf += "  </td>\r\n";      
+        
+        value = String(gpioPrimario[p]);
+        buf += "   <td> <input type=\"number\" name=POST_gpioPrimario"+valuep+" type=text value="+value+"></td>\r\n";
+        buf += "    <td>\r\n";
+        buf += "      <select id=\"IDreleUp"+valuep+"\" onchange=\"releUp"+valuep+"()\" name=POST_releUP"+valuep+">\r\n";
+        
+
+        
+        value = String(releUp[p]);
+        if(value == "1"){
+          buf += "        <option value = \"1\" selected>&uarr;</option>\r\n";
+          buf += "        <option value =\"0\">&darr;</option>\r\n";
+        } else {
+          buf += "        <option value =\"1\">&uarr;</option>\r\n";
+          buf += "        <option value =\"0\" selected>&darr;</option>\r\n";
+        }
+        buf += "      </select>\r\n";
+        buf += "    </td>\r\n";
 
         buf += "    <td align = center name=\"POST_tipoInterruptor"+valuep+"\" value=\"0\"> <label> ----- </label> </td>\r\n";
         buf += "    <td align = left> <label> ----- </label> </td>\r\n";
@@ -375,7 +412,8 @@ teste_funcao();
   buf += "<BR><BR>\r\n";
   buf += "<button type=\"submit\">Salvar</button></form>\r\n";
   buf += "<BR><BR>\r\n";
-  buf += "Up-Time "+strgD+"d "+strgH+":"+strgM+":"+strgS+"";
+  buf += "VER "+versao+"<BR>\r\n";
+  buf += "Up-Time "+strgD+"d "+strgH+":"+strgM+":"+strgS+"\r\n";
   
   buf += "</center>\r\n";
   buf += "</body>\r\n";
@@ -456,6 +494,15 @@ void http_config_post() {
       gpioPrimario[p]= server.arg(""+POST_gpioPrimario+"").toInt();
     }
 
+
+
+    String POST_releUP = "POST_releUP";
+    POST_releUP += String(p);
+    if(server.arg(""+POST_releUP+"") != ""){
+      releUp[p]= server.arg(""+POST_releUP+"").toInt();
+    }
+
+ 
     String POST_mqttAtuadorId = "POST_mqttAtuadorId";
     POST_mqttAtuadorId += String(p);
     if(server.arg(""+POST_mqttAtuadorId+"") != ""){
@@ -480,9 +527,8 @@ void http_config_post() {
     if(server.arg(""+POST_tipoDispositivo+"") != ""){
       tipoDispositivo[p]= server.arg(""+POST_tipoDispositivo+"").toInt();
     }
-    Serial.printf("POST_tipoDispositivo%d ",p);
-    Serial.println(server.arg(""+POST_tipoDispositivo+""));
-    
+ 
+
   }
     
   
@@ -538,7 +584,7 @@ void http_config_post() {
   buf += "<hr align=\"center\" width=\"430\" size=\"3\" color=black>\r\n";
 
   // ####################################################
-  // Configuração Luz
+  // Configuração Dispositivo
 
 
 
@@ -547,6 +593,7 @@ void http_config_post() {
   buf += "    <tr>\r\n";
   buf += "      <td width=\"50px\"><label> &nbsp </label></td>\r\n";
   buf += "      <td width=\"80px\"><label> &nbsp&nbsp&nbsp GPIO:</label></td>\r\n";
+  buf += "      <td width=\"50px\"><label> &nbsp </label></td>\r\n";
   buf += "      <td width=\"100px\"><label> &nbsp&nbsp Interruptor</label></td>\r\n";
   buf += "      <td width=\"80px\"><label> &nbsp&nbsp&nbsp GPIO:</label></td>\r\n";
   buf += "      <td width=\"80px\"><label> &nbsp&nbsp&nbsp MQTT:</label></td>\r\n";
@@ -561,19 +608,20 @@ void http_config_post() {
 
     switch(tipoDispositivo[p]){
       case 1:
+
         value = "Luz";
 
         buf += "<td><label> "+value+" </label></td>\r\n";
       
         value = String(gpioPrimario[p]);
         buf += "<td><label>"+value+"</label></td>\r\n";
-        
-        if(tipoInterruptor[p]=1){
+        buf += "    <td align = center> <label> -- </label> </td>\r\n";
+        if(tipoInterruptor[p]==1){
           value = "Paralelo";
-        } else if(tipoInterruptor[p]){
+        } else if(tipoInterruptor[p]==2){
           value = "Ligado ao GIPIO";
         }
-        
+
         buf += "<td><label>"+value+"</label></td>\r\n";
     
         value = String(gpioSecundario[p]);
@@ -582,8 +630,6 @@ void http_config_post() {
         value = String(mqttAtuadorId[p]);
         buf += "<td><label>"+value+"</label></td>\r\n";
 
-
-        
         break;
 
       case 2:
@@ -591,11 +637,32 @@ void http_config_post() {
         buf += "<td><label> "+value+" </label></td>\r\n";
       
         value = String(gpioPrimario[p]);
-        buf += "<td><label>"+value+"</label></td>\r\n";
+        buf += "    <td><label>"+value+"</label></td>\r\n";
+        buf += "    <td align = center> <label> -- </label> </td>\r\n";
         buf += "    <td align = center> <label> ----- </label> </td>\r\n";
-        buf += "    <td align = left> <label> ----- </label> </td>\r\n";
+        value = String(mqttAtuadorId[p]);
+        buf += "<td><label>"+value+"</label></td>\r\n";
+        break;
+
+      case 4:
+        value = "Tomada";
+        buf += "<td><label> "+value+" </label></td>\r\n";
+      
+        value = String(gpioPrimario[p]);
+        buf += "    <td><label>"+value+"</label></td>\r\n";
+        if(releUp[p] == 1){
+          value = String("&uarr;");
+        } else {
+          value = String("&darr;");
+        }
+        buf += "    <td><label>"+value+"</label></td>\r\n";
+        buf += "    <td align = center> <label> ----- </label> </td>\r\n";
+        buf += "    <td align = center> <label> ----- </label> </td>\r\n";
+        value = String(mqttAtuadorId[p]);
+        buf += "<td><label>"+value+"</label></td>\r\n";
         break;
     }
+     
 
   }
   buf += "</table>\r\n";

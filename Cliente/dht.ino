@@ -91,6 +91,3 @@ void dht_loop(){
     }
   }
 }
-
-
-

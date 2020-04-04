@@ -97,7 +97,6 @@ void saveConfig() {
   } 
 
 
-
   // ##################### GPIO
    
     for(int p = EEPROM_gpioPrimario0, x=0; p < (EEPROM_gpioPrimario0+qtdLuz); p++, x++){
@@ -105,6 +104,17 @@ void saveConfig() {
           reset = true;
           Serial.printf("[EEPROM SAVE] Atualizando gpioPrimario%d na eeprom para %d\n",x, gpioPrimario[x]);
           EEPROM.write(p, gpioPrimario[x]);                                      // grava variavel gpioPrimario na eeprom
+      }
+    }
+    
+
+  // ##################### releUp
+   
+    for(int p = EEPROM_releUp0, x=0; p < (EEPROM_releUp0+qtdLuz); p++, x++){
+      if(EEPROM.read(p)!= releUp[x]){                                    //valida se houve alteração na variavel antes de gravar 
+          reset = true;
+          Serial.printf("[EEPROM SAVE] Atualizando releUp%d na eeprom para %d\n",x, releUp[x]);
+          EEPROM.write(p, releUp[x]);                                      // grava variavel releUp na eeprom
       }
     }
   
@@ -147,13 +157,13 @@ void saveConfig() {
         if(EEPROM.read(p)!= tipoInterruptor[x]){                                    //valida se houve alteração na variavel antes de gravar 
           switch(tipoInterruptor[p]){
             case 1:
-              value = "Paralelo";
+              value = "Paralelo"; // 1 = paralelo
               Serial.println(" interruptor paralelo ");
               Serial.println(value);
               break;
             
             case 2:
-              value = "Ligado ao GPIO";
+              value = "Ligado ao GPIO";  // 2 = "Ligado ao GPIO"
               Serial.println(" interruptor gpio ");
               Serial.println(value);
               break;
@@ -173,15 +183,19 @@ void saveConfig() {
           switch(tipoDispositivo[p]){
             case 1:
               value = "Luz";
-//              Serial.println(" Disposivito ");
-//              Serial.println(value);
-              break;
+            break;
             
             case 2:
-              value = "dht";
-//              Serial.println(" Dispositivo ");
-//              Serial.println(value);
-              break;
+              value = "dht11";
+            break;
+            
+            case 3:
+              value = "dht22";
+            break;
+            
+            case 4:
+              value = "tomada";
+            break;
           }          
           Serial.printf("[EEPROM SAVE] Atualizando tipoDispositivo%d na eeprom para %d - ",x, tipoInterruptor[x]); 
           Serial.println(value);
@@ -279,6 +293,17 @@ void loadConfig(){
       if(EEPROM.read(p) <= 50){
         gpioPrimario[x] = EEPROM.read(p);                                // le variavel da eeprom
         Serial.printf("[EEPROM LOAD] Atualizando gpioPrimario%d para %d\n",x, gpioPrimario[x]);
+      }
+    }
+  }
+
+
+// ##################### releUp
+  for(int p = EEPROM_releUp0, x=0; p < (EEPROM_releUp0+qtdLuz); p++, x++){
+    if(EEPROM.read(p) >= 1){
+      if(EEPROM.read(p) <= 50){
+        releUp[x] = EEPROM.read(p);                                // le variavel da eeprom
+        Serial.printf("[EEPROM LOAD] Atualizando releUp%d para %d\n",x, releUp[x]);
       }
     }
   }

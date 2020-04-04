@@ -71,33 +71,58 @@ void callback(String topic, byte* message, unsigned int length) {
       String valuep = mqttAtuadorId[p];
       char* c_valuep = &valuep[0u];
 
-
       if(topic==c_value){
-//        verificacaoStatusLampada = true;  
-        Serial.print("Changing Room lamp to ");
-        if(messageTemp == "change"){
+        Serial.print("[MQTT Callback] Changing Room lamp to ");
+
+
+    int value;
+    if(messageTemp == "change"){
+      value = 1;
+    } else if(messageTemp == "on"){
+      value = 2;
+    } else if(messageTemp == "off"){
+      value = 3;
+    }
+
+    switch(value){
+    case 1:  // change
           digitalWrite(gpioPrimario[p],!digitalRead(gpioPrimario[p]));
           if(digitalRead(gpioPrimario[p])){
-            Serial.println("On");  
+            Serial.printf(" %d On", gpioPrimario[p]);
           } else {
-            Serial.println("off");  
+            Serial.printf(" %d Off", gpioPrimario[p]); 
           }
-          
-        }
-
-//        if(messageTemp == "on"){
-//          digitalWrite(gpioPrimario[p], HIGH);
-//          Serial.println("On");
-//        }
-//        else if(messageTemp == "off"){
-//          digitalWrite(gpioPrimario[p], LOW);
-//          Serial.println("Off ");
-//
-//        }
+    break;
+        
+    case 2: // on
+          if(tipoDispositivo[p]== 4){
+            if(releUp[p] == 1){
+              digitalWrite(gpioPrimario[p],LOW);
+              Serial.printf(" %d Off", gpioPrimario[p]);  
+            } else {
+              digitalWrite(gpioPrimario[p], HIGH);
+              Serial.printf(" %d On", gpioPrimario[p]);          
+            }
+            
+          }
+    break;
+        
+    case 3:  // off
+          if(tipoDispositivo[p]== 4){
+            if(releUp[p] == 1){
+              digitalWrite(gpioPrimario[p],HIGH);
+              Serial.printf(" %d on", gpioPrimario[p]);  
+            } else {
+              digitalWrite(gpioPrimario[p], LOW);
+              Serial.printf(" %d Off", gpioPrimario[p]);          
+            }
+          }
+    break;
       }
     }
+  }
   Serial.println();
-
+    
 }
 
 // This functions reconnects your ESP8266 to your MQTT broker
@@ -134,7 +159,6 @@ void reconnect() {
         char* c_mqttPass = &mqttPass[0u];;
   
         if (client.connect(c_mqttDeviceId, c_mqttUser, c_mqttPass, c_topicTestamento, 0, 0, c_payloadTestamento)){
-//        if (client.connect(c_mqttDeviceId,  mqttUser, mqttPass)) {       //original
           Serial.println("connected");  
           // Subscribe or resubscribe to a topic
           // You can subscribe to more topics (to control more LEDs in this example)

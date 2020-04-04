@@ -6,6 +6,7 @@
  
 void http_reset() {
 
+
   Serial.println("entrou no http reset");
   
   if (server.hasArg("cmd_post"))  {
@@ -36,7 +37,6 @@ void http_reset() {
   buf += "<!doctype html>\r\n";
   buf += "<html>\r\n";
   buf += "<head>\r\n";
-//  buf += "<title>Reset "+nomeDevice+"</title>\r\n";
   buf += "<title>Reset "+mqttDeviceId+"</title>\r\n";
   buf += "<meta name=\"viewport\" content=\"width=320\">\r\n";
   buf += "<meta name=\"viewport\" content=\"width=device-width\">\r\n";
@@ -46,7 +46,6 @@ void http_reset() {
   buf += "<body bgcolor=\"ADD8F6\">\r\n";
   buf += "<center>\r\n";
         
-//  buf += "<h3> Reset "+nomeDevice+"</h3>\r\n";
   buf += "<h3> Reset "+mqttDeviceId+"</h3>\r\n";
   buf += "<TABLE BORDER=0 align='middle'>\r\n";
   buf += "<TD WIDTH=150 align='middle'><form action='/reset' method='post'>\r\n";

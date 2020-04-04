@@ -3,6 +3,9 @@
  *
  *    v3.5.5 - versão estavel apos recuperação dos arquivos perdidos
  *    v3.5.6 - autenticação no usuario mqtt
+ *    v3.5.7d - desenvolvimento, ajuste para interruptor ligado em paralelo
+ *           - incluido input pullup nos pinos de entrada
+ *           - incluido device tipo tomada
  */   
  
 #include <EEPROM.h>
@@ -11,7 +14,6 @@
 #include <ESP8266HTTPUpdateServer.h>
 #include <ESP8266HTTPClient.h>
 #include <PubSubClient.h>    // mqtt
-//#include <ArduinoJson.h>
 
  
 
@@ -21,7 +23,7 @@
 #define EEPROM_qtdLuz 3               // tamanho total 1 byte
 #define EEPROM_totalReset 4           // tamanho total 1 byte
 #define EEPROM_qtdReset 5             // tamanho total 1 byte
-//#define EEPROM_idLuz2 6             // tamanho total 1 byte
+//#define EEPROM_releUp 6               // tamanho total 1 byte
 //#define EEPROM_idLuz3 7             // tamanho total 1 byte
 #define EEPROM_gpioPrimario0 8        // tamanho total 1 byte
 #define EEPROM_gpioPrimario1 9        // tamanho total 1 byte
@@ -39,7 +41,10 @@
 #define EEPROM_tipoDispositivo1 21    // tamanho total 1 byte
 #define EEPROM_tipoDispositivo2 22    // tamanho total 1 byte
 #define EEPROM_tipoDispositivo3 23    // tamanho total 1 byte
-
+#define EEPROM_releUp0 24             // tamanho total 1 byte
+#define EEPROM_releUp1 25             // tamanho total 1 byte
+#define EEPROM_releUp2 26             // tamanho total 1 byte
+#define EEPROM_releUp3 27             // tamanho total 1 byte
 
 #define EEPROM_wifi 40                // tamanho total 50 bytes=> 30 p/ ssid e 20 p/ password
 #define EEPROM_mqttAtuadorId0 90      // tamanho total 40 bytes
@@ -53,15 +58,17 @@
 void http_reset(void);
 
 
-String versao = "3.5.6";
+String versao = "3.5.7D1";
 
 
 int gpioPrimario[5] = {1};                //TX GPIO01     aba mudanca_interruptor, rst, ap, verificacao_status_lampada, http_config
 int gpioSecundario[5] = {3};        //RX GPI03      aba mudanca_interruptor, http_config
+int releUp[5] = {1}; 
 int tipoDispositivo[5] = {0,0,0,0,0};
-          // 1 para interruptor
+          // 1 para luz
           // 2 para dth11
           // 3 para dth21
+          // 4 tomada
 int tipoInterruptor[5] = {0, 0, 0, 0};             //aba http_config
           // 0 para não utilizado
           // 1 para paralelo
@@ -80,8 +87,8 @@ String mqttAtuadorId[5] = {"newdevice/atuador0", "newdevice/atuador1","newdevice
 //############################################
 //        Variaveis novas
 
-
-boolean divulgaAP = true;  // aba ap
+boolean wifiConnected = false; // aba wifi_ap
+boolean divulgaAP = true;  // aba wifi_ap
 boolean verificacaoStatusLampada = true;
 unsigned long lastMeasureVerificacaoStatusLampada;
 byte octeto[4];
@@ -108,8 +115,11 @@ ESP8266WebServer server(82);
 ESP8266HTTPUpdateServer httpUpdater;
 
 struct wifi{
-  char ssid[30];  //= "anonymous2";
-  char password[20]; // = "manuela.";
+  char ssid[30];  
+  char password[20]; 
+
+//  char ssid[30] = "INTERNET_SMC_LATAM";
+//  char password[20]  = "$@(M%182_2o19";
 } wifi;
 
 char *APssid = "newdevice";
@@ -119,8 +129,6 @@ extern "C" {
 #include "user_interface.h"
 }
 
-
-//IPAddress ipServer(0,0,0,0);     // casa SERVER varanda
 
 //######################
 //  variaveis MQTT
@@ -203,15 +211,15 @@ void setup() {
 
 
   for(int p = 0; p < qtdLuz; p++){
-    if(tipoDispositivo[p] == 1){
+    if(tipoDispositivo[p] == 1 || tipoDispositivo[p] == 4){
       pinMode(gpioPrimario[p], OUTPUT);
       digitalWrite(gpioPrimario[p], HIGH); // inicializa com a lampada desligada
     } else if (tipoDispositivo[p] == 2 || tipoDispositivo[p] == 3) {
       pinMode(gpioPrimario[p], INPUT);
-    }
+    } 
 
     if(tipoInterruptor[p] == 1 || tipoInterruptor[p] == 2){
-      pinMode(gpioSecundario[p], INPUT);  
+      pinMode(gpioSecundario[p], INPUT_PULLUP);  
     }
     
   }
@@ -222,10 +230,6 @@ void setup() {
 //  WiFi.begin("anonymous2", "manuela.");
   WiFi.begin(wifi.ssid, wifi.password); 
   WiFi.softAP(APssid); //, APpassword);
-
-
-//  IPAddress ipServer(octeto[0],octeto[1],octeto[2],octeto[3]);
-//  String value = ipServer.toString();
 
 
   EEPROM.write(EEPROM_qtdReset, 0);       // função reset constante
@@ -243,7 +247,7 @@ dht_loop();
   server.handleClient();          // referente a funçao server.on
   verificacao_status_lampada();   // monitora o status da lampada - aba verificacao_status_lampada
   wifi_ap();               // envia update inicial do modulo - aba a
-mqttEspStatus();
+  mqttEspStatus();
 
  if (!client.connected() || !lastMqttStatus) {
     
