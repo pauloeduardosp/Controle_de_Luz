@@ -299,7 +299,7 @@ mudar parametro (linha 447 do arquivo)
 allow_anonymous = false
 ```
 Dica - 
-dentro do vi usar "**:**" para pular para a linha
+dentro do vi usar "**:**" para pular para a umero expecido da linha 
 ou "**/**" para procurar o parametro "allow_anonymous"
 
 Despois de editar o arquivo é necessário fazer um restart no serviço
@@ -316,7 +316,7 @@ e incluir a linha
 
 <br><br>
 ### Problema início automático ssh
-se tiver problema para ssh ao reiniciar a maquina
+se tiver problema para ssh ao reiniciar a maquina,
 incluir as linhas no arquivo
 ```
 vi /etc/rc.local
