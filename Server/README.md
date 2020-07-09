@@ -33,21 +33,21 @@ Descrição passo a passo de como instalar a vps do NVA com Ubuntu 16.04 do zero
 
 <br>
 
-### 3. Instalar nodejs V10
+### 3. Instalar nodejs V14
 
 
 ```
-   curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+   curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
    sudo apt-get install -y nodejs
 ```
 
  Verificar versão instalada
 
     node -v
-        v10.16.0
+        v14.5.0
  ```
  npm -v 
-	6.9.0
+	6.14.0
 ```
 <br>
 
