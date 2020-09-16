@@ -103,13 +103,14 @@ Como Reinicilizar o serviço
 
 ### 5.1 Executar outra instancia do node-red
 A pasta padrão da execuçaõ node red é 
-/root/.node-red
+	/root/.node-red
 
-É necessário criar outra pasta para execução
+É necessário criar outra pasta para execução 
+```
 mkdir /root/.node-red2
- 
-Criar o arquivo um novo arquvo, com outro nome
-	   sudo vi /etc/systemd/system/node-red2.service  
+```
+Criar o arquivo um novo arquvo, com outro nome   
+```	   sudo vi /etc/systemd/system/node-red2.service  ```
 
 Com as seguintes informações abaixo
  ```
