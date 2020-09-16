@@ -99,7 +99,50 @@ Como Reinicilizar o serviço
    sudo systemctl restart node-red.service
 ```
 <br>
+### 5.1 Executar outraa instancia do node-red
+A pasta padrão da execuçaõ node red é 
+/root/.node-red
 
+É necessário criar outra pasta para execução
+mkdir /root/.node-red2
+ 
+Criar o arquivo um novo arquvo, com outro nome
+	   sudo vi /etc/systemd/system/node-red2.service  
+
+Com as seguintes informações abaixo
+ ```
+[Unit]
+Description=Node-RED2
+After=network.target
+
+[Service]
+Type=simple
+#ExecStart=/usr/local/bin/node-red-pi --max-old-space-size=128 -v
+ExecStart=/usr/bin/node-red  -u /root/.node-red2 -p 1881     #pasta onde vai executar /root/.node-red2 e porta utilizada pelo serviço 1881
+
+Restart=on-failure
+KillSignal=SIGINT
+
+
+WorkingDirectory=/home/root
+User=root
+
+[Install]
+WantedBy=multi-user.target 
+```
+
+Executar os comandos
+```
+   sudo systemctl enable node-red2.service
+   sudo systemctl start node-red2.service
+   sudo systemctl status node-red2.service
+```
+
+Como Reinicilizar o serviço
+```
+   sudo systemctl restart node-red2.service
+```
+<br>
 ### 6. Instalar o git
 ```
 	apt-get install git-core
