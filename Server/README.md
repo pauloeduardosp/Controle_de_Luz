@@ -8,6 +8,7 @@ Descrição passo a passo de como instalar a vps do NVA com Ubuntu 16.04 do zero
 [3. Instalar nodejs V10](#3-Instalar-nodejs-V10)  
 [4. Instalar Node-Red](#4-Instalar-Node-Red)  
 [5. Executar node-red no boot](#5-Executar-node-red-no-boot)  
+	[5.1 Criar outra instancia do node-red](#5-Executar-node-red-no-boot)  
 [6. Instalar o git](#6-Instalar-o-git)  
 [7. Instalar packets node-red](#7-Instalar-packets-node-red)  
 [8. Encaminhamento da home page](#8-Encaminhamento-da-home-page)  
@@ -99,7 +100,7 @@ Como Reinicilizar o serviço
    sudo systemctl restart node-red.service
 ```
 <br>
-### 5.1 Executar outraa instancia do node-red
+### 5 Executar outraa instancia do node-red
 A pasta padrão da execuçaõ node red é 
 /root/.node-red
 
@@ -143,6 +144,7 @@ Como Reinicilizar o serviço
    sudo systemctl restart node-red2.service
 ```
 <br>
+
 ### 6. Instalar o git
 ```
 	apt-get install git-core
