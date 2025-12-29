@@ -188,7 +188,7 @@ node-red-node-darksky 0.1.18
 <br>
 
 ### 7.1 Bkp do fluxo do node-red
-[Arquivo de bkp](/BKP_Flow_Nodered).
+[Arquivo de bkp](BKP_Flow_Nodered).
 	
 
 ### 8. Encaminhamento da home page
