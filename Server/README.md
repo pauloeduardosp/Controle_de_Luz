@@ -15,6 +15,7 @@ Descrição passo a passo de como instalar a vps do NVA com Ubuntu 16.04 do zero
 [9. Criar repositório espelho do git hub](#9-Criar-repositório-espelho-do-git-hub)  
 [10. Criação estrutua local do git](#10-Criação-estrutua-local-do-git)  
 [11. Instalar EMQx](#11-Instalar-EMQx)  
+[12. Instalar Mysql](#12-Instalar-Mysql)  
 [Problema início automático ssh](#Problema-início-automático-ssh)  
 
 ### 1. Atualizar a VPS
@@ -364,6 +365,33 @@ e incluir a linha
 ```
 
 <br><br>
+
+### 12. Instalar Mysql
+```
+sudo apt install mysql-server
+```
+Executar politicas de segurança
+```
+sudo mysql_secure_installation
+```
+Verificar status do mysql
+```
+sudo systemctl status mysql
+```
+Logar com usuário root
+```
+sudo mysql -u root -p
+```
+Mudar senha do root
+```
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'joker98sp'
+```
+Criar banco e tabela
+```
+CREATE DATABASE iotpaulo;
+CREATE TABLE Clima (   id int(11) unsigned NOT NULL AUTO_INCREMENT,   localidade varchar(30) DEFAULT NULL,   sensor varchar(30) DEFAULT NULL,   temperatura float unsigned DEFAULT NULL,   umidade float unsigned DEFAULT NULL,   time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,   PRIMARY KEY (id) );
+```
+
 ### Problema início automático ssh
 se tiver problema para ssh ao reiniciar a maquina,
 incluir as linhas no arquivo
