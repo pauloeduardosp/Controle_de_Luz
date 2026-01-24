@@ -391,7 +391,7 @@ Mudar senha do root
 ```
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'joker98sp'
 ```
-Criar banco e tabela
+Criar banco e tabelas
 ```
 CREATE DATABASE iotpaulo;
 ```
@@ -399,8 +399,26 @@ CREATE DATABASE iotpaulo;
 USE iotpaulo;
 ```
 ```
-CREATE TABLE Clima (   id int(11) unsigned NOT NULL AUTO_INCREMENT,   localidade varchar(30) DEFAULT NULL,   sensor varchar(30) DEFAULT NULL,   temperatura float  DEFAULT NULL,   umidade float unsigned DEFAULT NULL,   time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,   PRIMARY KEY (id) );
+CREATE TABLE Clima (
+  id          int(11) unsigned NOT NULL AUTO_INCREMENT,
+  localidade  varchar(30)      DEFAULT NULL,
+  sensor      varchar(30)      DEFAULT NULL,
+  temperatura float            DEFAULT NULL,
+  umidade     float unsigned   DEFAULT NULL,
+  time        timestamp        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+);
 ```
+```
+CREATE TABLE `Status` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `localidade` varchar(30) NOT NULL, 
+  `status` float NOT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+);
+```
+
 
 ### Problema início automático ssh
 se tiver problema para ssh ao reiniciar a maquina,
