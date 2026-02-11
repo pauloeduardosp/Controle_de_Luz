@@ -418,7 +418,17 @@ CREATE TABLE `Status` (
   PRIMARY KEY (`id`)
 );
 ```
-
+```
+CREATE TABLE Offset (
+  id          int(11) unsigned NOT NULL AUTO_INCREMENT,
+  localidade  varchar(30)      DEFAULT NULL,
+  sensor      varchar(30)      DEFAULT NULL,
+  tempoffset float            DEFAULT NULL,
+  umiddoffset float unsigned   DEFAULT NULL,
+  time        timestamp        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+);
+```
 
 ### Problema início automático ssh
 se tiver problema para ssh ao reiniciar a maquina,
