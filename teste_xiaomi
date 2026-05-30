@@ -1,0 +1,54 @@
+Guia: Extração de Tokens Xiaomi no Windows (Sem Admin)
+Este guia demonstra como extrair o Token e a BLE Bind Key (Encryption Key) de dispositivos do ecossistema Mi Home/Xiaomi utilizando uma máquina Windows restrita, sem a necessidade de privilégios de administrador.
+
+O método utiliza uma instalação local do Python (escopo do usuário) combinada com a ferramenta oficial da comunidade Xiaomi-cloud-tokens-extractor.
+
+🛠️ Pré-requisitos
+Sensor pareado: O dispositivo deve estar previamente configurado no aplicativo Mi Home do celular.
+
+Bluetooth Gateway: Certifique-se de que o sensor já se comunicou ao menos uma vez com algum gateway Bluetooth da Xiaomi na sua casa (lâmpada, tomada, roteador inteligente, etc.) para que a chave de criptografia (bindkey) seja gerada na nuvem.
+
+🚀 Passo a Passo no Windows
+Passo 1: Validar e Localizar o Python no Usuário
+O Windows costuma ter o Python instalado de forma isolada dentro do perfil do usuário. Abra o PowerShell e certifique-se de que a pasta existe executando o comando abaixo:
+
+Test-Path "$env:USERPROFILE\AppData\Local\Programs\Python"
+Se o retorno for True, avance. Caso contrário, instale o Python através da Microsoft Store (que não exige senha de admin).
+
+Passo 2: Baixar o Script Extrator Oficial
+Ainda no PowerShell, execute o comando abaixo para baixar a versão mais recente do script criado por Piotr Machowski direto para a sua pasta de Downloads:
+
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PiotrMachowski/Xiaomi-cloud-tokens-extractor/master/token_extractor.py" -OutFile "$env:USERPROFILE\Downloads\token_extractor.py"
+Passo 3: Instalar as Dependências no Escopo do Usuário
+O script necessita de bibliotecas de requisição, criptografia e tratamento de imagem (para exibição de Captchas no terminal). Instale-as apontando diretamente para o executável do Python do seu perfil:
+
+& (Get-ChildItem "$env:USERPROFILE\AppData\Local\Programs\Python\Python*\python.exe").FullName -m pip install requests pycryptodome Pillow
+Passo 4: Executar a Ferramenta
+Inicie o script interativo através do comando:
+
+& (Get-ChildItem "$env:USERPROFILE\AppData\Local\Programs\Python\Python*\python.exe").FullName "$env:USERPROFILE\Downloads\token_extractor.py"
+🔑 Coletando os Dados no Prompt
+Ao iniciar, o script funcionará de forma interativa exigindo os seguintes dados:
+
+Username/Password: Digite o e-mail (ou ID numérico) e a senha da sua conta Mi Home.
+
+Server/Region: Digite a sigla do servidor onde seus dispositivos estão configurados:
+
+de para Europa (Espanha/Alemanha)
+
+cn para China
+
+all para buscar em todas as regiões simultaneamente.
+
+Bypass de Segurança (Se aplicável): Caso a Xiaomi exiba um alerta de segurança por login em nova máquina, o script fornecerá um link oficial. Abra o link no navegador, faça o login, resolva o Captcha e copie a URL final da página em branco. Cole essa URL de volta no PowerShell e pressione Enter.
+
+🎉 Resultado Esperado
+O script imprimirá uma tabela no terminal com todos os dispositivos vinculados. Localize a linha do seu termômetro para coletar as chaves:
+
+Name: Nome atribuído ao sensor no app.
+
+Token: String hexadecimal de 32 caracteres.
+
+BLE KEY: Chave de criptografia de 32 caracteres (necessária para descriptografar os pacotes de dados BLE no Home Assistant, Node-RED ou scripts Python via Raspberry Pi).
+
+Agora sim! Pode copiar o texto acima sem medo, pois ele não vai quebrar o seu arquivo .md no GitHub.
