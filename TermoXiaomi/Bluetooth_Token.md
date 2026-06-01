@@ -31,6 +31,7 @@ Ainda no PowerShell, execute o comando abaixo para baixar a versão mais recente
 ```powershell
 Invoke-WebRequest -Uri "[https://raw.githubusercontent.com/PiotrMachowski/Xiaomi-cloud-tokens-extractor/master/token_extractor.py](https://raw.githubusercontent.com/PiotrMachowski/Xiaomi-cloud-tokens-extractor/master/token_extractor.py)" -OutFile "$env:USERPROFILE\Downloads\token_extractor.py"
 ```
+
 ```text
 ### Passo 3: Instalar as Dependências no Escopo do Usuário
 O script necessita de bibliotecas de requisição, criptografia e tratamento de imagem (para exibição de Captchas no terminal). Instale-as apontando diretamente para o executável do Python do seu perfil:
