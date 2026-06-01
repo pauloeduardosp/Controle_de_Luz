@@ -20,6 +20,7 @@ O Windows costuma ter o Python instalado de forma isolada dentro do perfil do us
 
 ```powershell
 Test-Path "$env:USERPROFILE\AppData\Local\Programs\Python"
+```
 
 
 *Se o retorno for **True**, avance. Caso contrário, instale o Python através da Microsoft Store (que não exige senha de admin).*
@@ -29,14 +30,14 @@ Ainda no PowerShell, execute o comando abaixo para baixar a versão mais recente
 
 ```powershell
 Invoke-WebRequest -Uri "[https://raw.githubusercontent.com/PiotrMachowski/Xiaomi-cloud-tokens-extractor/master/token_extractor.py](https://raw.githubusercontent.com/PiotrMachowski/Xiaomi-cloud-tokens-extractor/master/token_extractor.py)" -OutFile "$env:USERPROFILE\Downloads\token_extractor.py"
-
+```
 ```text
 ### Passo 3: Instalar as Dependências no Escopo do Usuário
 O script necessita de bibliotecas de requisição, criptografia e tratamento de imagem (para exibição de Captchas no terminal). Instale-as apontando diretamente para o executável do Python do seu perfil:
 
 ```powershell
 & (Get-ChildItem "$env:USERPROFILE\AppData\Local\Programs\Python\Python*\python.exe").FullName -m pip install requests pycryptodome Pillow```text
-
+```
 
 ```text
 ### Passo 4: Executar a Ferramenta
@@ -44,3 +45,4 @@ Inicie o script interativo através do comando:
 
 ```powershell
 & (Get-ChildItem "$env:USERPROFILE\AppData\Local\Programs\Python\Python*\python.exe").FullName "$env:USERPROFILE\Downloads\token_extractor.py"
+```
