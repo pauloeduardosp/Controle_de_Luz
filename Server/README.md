@@ -1,5 +1,5 @@
 
-Descrição passo a passo de como instalar a vps para utilização do node-red
+Descrição passo a passo de como instalar a vps do NVA com Ubuntu 16.04 do zero para utilização do node-red
 
 ## Conteúdo
 
@@ -28,24 +28,20 @@ Descrição passo a passo de como instalar a vps para utilização do node-red
 ```
 <br>
 
-### 2. Instalar o Node.js e o NPM - atualizado
-O Node-RED precisa do Node.js para correr. Vamos instalar a versão estável atual diretamente dos repositórios do Ubuntu:
+### 2. Instalar Curl  
+
 ```
-	sudo apt update
-	sudo apt install nodejs npm -y
+   sudo apt-get install curl
 ```
-Para confirmar que foram bem instalados, verifique as versões com:
-```
-node -v
-npm -v
-```
+
 <br>
 
-### 3. Instalar o Node-RED globalmente - atualizado
+### 3. Instalar nodejs V14
 
 
 ```
-   sudo npm install -g --unsafe-perm node-red
+   curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+   sudo apt-get install -y nodejs
 ```
 
  Verificar versão instalada
@@ -58,40 +54,56 @@ npm -v
 ```
 <br>
 
-### 4. Executar node-red no boot - atualizado
+### 4. Instalar Node-Red
+```
+	   sudo npm install -g --unsafe-perm node-red node-red-admin
+```
+<br>
+
+### 5. Executar node-red no boot
  
 Criar o arquivo  
- ```
 	   sudo vi /etc/systemd/system/node-red.service  
-```
 Com as seguintes informações abaixo
-```
+ ```
 [Unit]
 Description=Node-RED
 After=network.target
 
 [Service]
 Type=simple
-User=root
-Environment=NODE_OPTIONS="--max-old-space-size=512"
-ExecStart=/usr/local/bin/node-red
+#ExecStart=/usr/local/bin/node-red-pi --max-old-space-size=128 -v
+ExecStart=/usr/bin/node-red 
 Restart=on-failure
 KillSignal=SIGINT
+
+
+WorkingDirectory=/home/root
+User=root
 
 [Install]
 WantedBy=multi-user.target 
 ```
-Iniciar o Node-RED
+
+Criar diretório
 ```
-	sudo systemctl daemon-reload
-	sudo systemctl enable nodered.service
-	sudo systemctl start nodered.service
+   mkdir /home/root
+```
+Executar os comandos
+```
+   sudo systemctl daemon-reload
+   sudo systemctl enable node-red.service
+   sudo systemctl start node-red.service
+   sudo systemctl status node-red.service
 ```
 
-
+Como Reinicilizar o serviço
+```
+   sudo systemctl restart node-red.service
+```
 <br>
 
-### 4.1 Executar outra instancia do node-red
+### 5.1 Executar outra instancia do node-red
 A pasta padrão da execuçaõ node red é    
 ```	/root/.node-red```
 
@@ -139,8 +151,6 @@ Como Reinicilizar o serviço
 ```
 <br>
 
-
-
 ### 6. Instalar o git
 ```
 	apt-get install git-core
@@ -179,15 +189,7 @@ node-red-node-darksky 0.1.18
 
 ### 7.1 Bkp do fluxo do node-red
 [Arquivo de bkp](BKP_Flow_Nodered).
-<br>
-### 7.2 Forçar instalação dos pacotes faltantes - atualizado
-Caso tenha restauraurado o bkp, para instalar os pacotes faltantes
-```
-cd ~/.node-red
-npm install --no-audit --no-fund
-```
-<br>
-
+	
 
 ### 8. Encaminhamento da home page
 Arquivo index para encaminhamento da porta 80 para 1880/ui
