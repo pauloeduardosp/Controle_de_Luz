@@ -3,21 +3,22 @@ Descrição passo a passo de como instalar a vps para utilização do node-red
 
 ## Conteúdo
 
-[1. Atualizar a VPS](#1-atualizar-a-VPS)  
-[2. Instalar Curl  ](#2-Instalar-Curl)  
-[3. Instalar nodejs V10](#3-Instalar-nodejs-V10)  
-[4. Instalar Node-Red](#4-Instalar-Node-Red)  
-[5. Executar node-red no boot](#5-Executar-node-red-no-boot)  
-&nbsp;&nbsp;&nbsp;&nbsp;[5.1 Criar outra instancia do node-red](#51-executar-outra-instancia-do-node-red)   
-[6. Instalar o git](#6-Instalar-o-git)  
-[7. Instalar packets node-red](#7-Instalar-packets-node-red)  
-&nbsp;&nbsp;&nbsp;&nbsp;[7.1 Bkp do fluxo do node-red](#71-Bkp-do-fluxo-do-node-red)  
-[8. Encaminhamento da home page](#8-Encaminhamento-da-home-page)  
-[9. Criar repositório espelho do git hub](#9-Criar-repositório-espelho-do-git-hub)  
-[10. Criação estrutua local do git](#10-Criação-estrutua-local-do-git)  
-[11. Instalar EMQx](#11-Instalar-EMQx)  
-[12. Instalar Mysql](#12-Instalar-Mysql)  
-[Problema início automático ssh](#Problema-início-automático-ssh)  
+[1. Atualizar a VPS](#1.-Atualizar-a-VPS)
+[2. Instalar o Node.js e o NPM - atualizado](#2.-Instalar-o-Node.js-e-o-NPM---atualizado)
+[3. Instalar o Node-RED globalmente - atualizado](#3.-Instalar-o-Node-RED-globalmente---atualizado)
+[4. Executar node-red no boot - atualizado](#4.-Executar-node-red-no-boot---atualizado)
+&nbsp;&nbsp;&nbsp;&nbsp;[4.1 Executar outra instancia do node-red](#4.1-Executar-outra-instancia-do-node-red)
+[6. Instalar o git](#6.-Instalar-o-git)
+[7. Instalar packets node-red](#7.-Instalar-packets-node-red)
+&nbsp;&nbsp;&nbsp;&nbsp;[7.1 Bkp do fluxo do node-red](#7.1-Bkp-do-fluxo-do-node-red)
+&nbsp;&nbsp;&nbsp;&nbsp;[7.2 Forçar instalação dos pacotes faltantes - atualizado](#7.2-Forçar-instalação-dos-pacotes-faltantes---atualizado)
+[8. Encaminhamento da home page](#8.-Encaminhamento-da-home-page)
+[9. Criar repositório espelho do git hub](#9.-Criar-repositório-espelho-do-git-hub)
+[10. Criação estrutua local do git](#10.-Criação-estrutua-local-do-git)
+[11. Instalar EMQx - Atualizado](#11.-Instalar-EMQx---Atualizado)
+[ Inicialiar EMQx no boot](#-Inicialiar-EMQx-no-boot)
+[12. Instalar Mysql - atualizado](#12.-Instalar-Mysql---atualizado)
+[Problema início automático ssh](#Problema-início-automático-ssh) 
 
 ### 1. Atualizar a VPS
 ```
@@ -275,52 +276,36 @@ echo node_modules/ >> .gitignore
 echo package-lock.json >> .gitignore
 echo package.json >> .gitignore
 ```
-### 11. Instalar EMQx
+### 11. Instalar EMQx - Atualizado
+
+Entrar na paguina
+```
+https://www.emqx.io/downloads/broker
+```
+E confirmar qual é a ultima versão do broker e ver o nome do arquivo para sua versão do Ubuntu
 
 Baixar o EMQx
 ```
-cd / && wget https://www.emqx.io/downloads/broker/v3.2.2/emqx-ubuntu16.04-v3.2.2.zip
+cd / && wget https://www.emqx.com/en/downloads/broker/vX.X.X/emqx-X.X.X-ubuntuY.Y-amd64.deb
 ```
 <br>
 
-Descompactar  
+Instalar
 ```
-unzip emqx-ubuntu16.04-v3.2.2.zip
-```
-<br>
-
-
-Apagar arquivo ZIP
-```
-rm emqx-ubuntu16.04-v3.2.2.zip
+sudo apt install ./emqx-X.X.X-ubuntuY.Y-amd64.deb -y
 ```
 <br>
 
-
-Iniciar EMQx no modo console para veriricar se tem algum erro
+Ativar e Iniciar o Serviço do EMQX
 ```
-cd /emqx && ./bin/emqx console
+sudo systemctl enable emqx
+sudo systemctl start emqx
 ```
 <br>
 
-Resultado
+Validar o serviço
 ```
-Starting emqx on node emqx@127.0.0.1
-Start http:management listener on 8080 successfully.
-Start http:dashboard listener on 18083 successfully.
-Start mqtt:tcp listener on 127.0.0.1:11883 successfully.
-Start mqtt:tcp listener on 0.0.0.0:1883 successfully.
-Start mqtt:ws listener on 0.0.0.0:8083 successfully.
-Start mqtt:ssl listener on 0.0.0.0:8883 successfully.
-Start mqtt:wss listener on 0.0.0.0:8084 successfully.
-EMQ X Broker 3.2.2 is running now!
-```
-sair console crtl+z
-<br>
-
-Iniciarliar EMQx	
-```
-cd /emqx && ./bin/emqx start
+sudo systemctl status emqx
 ```
 <br>
 
@@ -369,17 +354,15 @@ e incluir a linha
 
 <br><br>
 
-### 12. Instalar Mysql
+### 12. Instalar Mysql - atualizado
 ```
-sudo apt install mysql-server
+sudo apt update sudo 
+apt install mysql-server -y
 ```
-Executar politicas de segurança
-```
-sudo mysql_secure_installation
-```
-Verificar status do mysql
+Confimar status do serviço
 ```
 sudo systemctl status mysql
+```
 ```
 Logar com usuário root
 ```
@@ -392,40 +375,21 @@ ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'joker98s
 Criar banco e tabelas
 ```
 CREATE DATABASE iotpaulo;
-```
+
 ```
 USE iotpaulo;
 ```
 ```
-CREATE TABLE Clima (
-  id          int(11) unsigned NOT NULL AUTO_INCREMENT,
-  localidade  varchar(30)      DEFAULT NULL,
-  sensor      varchar(30)      DEFAULT NULL,
-  temperatura float            DEFAULT NULL,
-  umidade     float unsigned   DEFAULT NULL,
-  time        timestamp        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (id)
-);
+CREATE TABLE `Clima` ( `id` int unsigned NOT NULL AUTO_INCREMENT, `localidade` varchar(30) DEFAULT NULL, `sensor` varchar(30) DEFAULT NULL, `temperatura` float DEFAULT NULL, `umidade` float unsigned DEFAULT NULL, `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (`id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 ```
 ```
-CREATE TABLE `Status` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `localidade` varchar(30) NOT NULL, 
-  `status` float NOT NULL,
-  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-);
+CREATE TABLE `Offset` ( `id` int unsigned NOT NULL AUTO_INCREMENT, `localidade` varchar(30) DEFAULT NULL, `sensor` varchar(30) DEFAULT NULL, `tempoffset` float DEFAULT NULL, `umiddoffset` float unsigned DEFAULT NULL, `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (`id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 ```
 ```
-CREATE TABLE Offset (
-  id          int(11) unsigned NOT NULL AUTO_INCREMENT,
-  localidade  varchar(30)      DEFAULT NULL,
-  sensor      varchar(30)      DEFAULT NULL,
-  tempoffset float            DEFAULT NULL,
-  umiddoffset float unsigned   DEFAULT NULL,
-  time        timestamp        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (id)
-);
+CREATE TABLE `Status` ( `id` int unsigned NOT NULL AUTO_INCREMENT, `localidade` varchar(30) NOT NULL, `status` float NOT NULL, `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (`id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+```
+```
+CREATE VIEW `view_Clima_Copare` AS select `a`.`id` AS `id_aberto`, `a`.`localidade` AS `loc_aberto`, `a`.`time` AS `time_aberto`, `a`.`temperatura` AS `temp_aberto`, `a`.`umidade` AS `umidd_aberto`, `f`.`id` AS `id_fechado`, `f`.`localidade` AS `loc_fechado`, `f`.`time` AS `time_fechado`, `f`.`temperatura` AS `temp_fechado`, `f`.`umidade` AS `umidd_fechado`, round((`f`.`temperatura` - `a`.`temperatura`),2) AS `dif_temp_fechado`, round((`f`.`umidade` - `a`.`umidade`),2) AS `dif_umidd_fechado`, `t`.`id` AS `id_termometro`, `t`.`localidade` AS `loc_termometro`, `t`.`time` AS `time_termometro`, `t`.`temperatura` AS `temp_termometro`, `t`.`umidade` AS `umidd_termometro`, round((`t`.`temperatura` - `a`.`temperatura`),2) AS `dif_temp_termometro`, round((`t`.`umidade` - `a`.`umidade`),2) AS `dif_umidd_termometro` from ((`Clima` `a` join lateral ( select `f`.`id` AS `id`,`f`.`localidade` AS `localidade`,`f`.`sensor` AS `sensor`,`f`.`temperatura` AS `temperatura`,`f`.`umidade` AS `umidade`,`f`.`time` AS `time` from `Clima` `f` where (`f`.`localidade` = 'fechado') order by abs(timestampdiff(SECOND,`f`.`time`,`a`.`time`)) limit 1 ) `f`) join lateral ( select `t`.`id` AS `id`,`t`.`localidade` AS `localidade`,`t`.`sensor` AS `sensor`,`t`.`temperatura` AS `temperatura`,`t`.`umidade` AS `umidade`,`t`.`time` AS `time` from `Clima` `t` where (`t`.`localidade` = 'termometro') order by abs(timestampdiff(SECOND,`t`.`time`,`a`.`time`)) limit 1 ) `t`) where ((`a`.`localidade` = 'aberto') and (abs(timestampdiff(SECOND,`f`.`time`,`a`.`time`)) <= 60) and (abs(timestampdiff(SECOND,`t`.`time`,`a`.`time`)) <= 60));
 ```
 
 ### Problema início automático ssh
