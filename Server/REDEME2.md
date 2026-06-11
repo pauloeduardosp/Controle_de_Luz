@@ -19,7 +19,6 @@ Descrição passo a passo de como instalar a vps para utilização do node-red
 [ Inicialiar EMQx no boot](#-Inicialiar-EMQx-no-boot)   
 [12. Instalar Mysql - atualizado](#12-Instalar-Mysql---atualizado)   
 [Problema início automático ssh](#Problema-início-automático-ssh)   
-<img width="301" height="385" alt="image" src="https://github.com/user-attachments/assets/ea56d8b9-4fd4-4756-ab9e-b979af4638df" />
 
 
 ### 1. Atualizar a VPS
@@ -393,13 +392,61 @@ CREATE TABLE `Clima` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 ```
 ```
-CREATE TABLE `Offset` ( `id` int unsigned NOT NULL AUTO_INCREMENT, `localidade` varchar(30) DEFAULT NULL, `sensor` varchar(30) DEFAULT NULL, `tempoffset` float DEFAULT NULL, `umiddoffset` float unsigned DEFAULT NULL, `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (`id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `Offset` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `localidade` varchar(30) DEFAULT NULL,
+  `sensor` varchar(30) DEFAULT NULL,
+  `tempoffset` float DEFAULT NULL,
+  `umiddoffset` float unsigned DEFAULT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 ```
 ```
-CREATE TABLE `Status` ( `id` int unsigned NOT NULL AUTO_INCREMENT, `localidade` varchar(30) NOT NULL, `status` float NOT NULL, `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (`id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `Status` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `localidade` varchar(30) NOT NULL,
+  `status` float NOT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 ```
 ```
-CREATE VIEW `view_Clima_Copare` AS select `a`.`id` AS `id_aberto`, `a`.`localidade` AS `loc_aberto`, `a`.`time` AS `time_aberto`, `a`.`temperatura` AS `temp_aberto`, `a`.`umidade` AS `umidd_aberto`, `f`.`id` AS `id_fechado`, `f`.`localidade` AS `loc_fechado`, `f`.`time` AS `time_fechado`, `f`.`temperatura` AS `temp_fechado`, `f`.`umidade` AS `umidd_fechado`, round((`f`.`temperatura` - `a`.`temperatura`),2) AS `dif_temp_fechado`, round((`f`.`umidade` - `a`.`umidade`),2) AS `dif_umidd_fechado`, `t`.`id` AS `id_termometro`, `t`.`localidade` AS `loc_termometro`, `t`.`time` AS `time_termometro`, `t`.`temperatura` AS `temp_termometro`, `t`.`umidade` AS `umidd_termometro`, round((`t`.`temperatura` - `a`.`temperatura`),2) AS `dif_temp_termometro`, round((`t`.`umidade` - `a`.`umidade`),2) AS `dif_umidd_termometro` from ((`Clima` `a` join lateral ( select `f`.`id` AS `id`,`f`.`localidade` AS `localidade`,`f`.`sensor` AS `sensor`,`f`.`temperatura` AS `temperatura`,`f`.`umidade` AS `umidade`,`f`.`time` AS `time` from `Clima` `f` where (`f`.`localidade` = 'fechado') order by abs(timestampdiff(SECOND,`f`.`time`,`a`.`time`)) limit 1 ) `f`) join lateral ( select `t`.`id` AS `id`,`t`.`localidade` AS `localidade`,`t`.`sensor` AS `sensor`,`t`.`temperatura` AS `temperatura`,`t`.`umidade` AS `umidade`,`t`.`time` AS `time` from `Clima` `t` where (`t`.`localidade` = 'termometro') order by abs(timestampdiff(SECOND,`t`.`time`,`a`.`time`)) limit 1 ) `t`) where ((`a`.`localidade` = 'aberto') and (abs(timestampdiff(SECOND,`f`.`time`,`a`.`time`)) <= 60) and (abs(timestampdiff(SECOND,`t`.`time`,`a`.`time`)) <= 60));
+CREATE VIEW `view_Clima_Copare` AS 
+select 
+    `a`.`id` AS `id_aberto`,
+    `a`.`localidade` AS `loc_aberto`,
+    `a`.`time` AS `time_aberto`,
+    `a`.`temperatura` AS `temp_aberto`,
+    `a`.`umidade` AS `umidd_aberto`,
+    `f`.`id` AS `id_fechado`,
+    `f`.`localidade` AS `loc_fechado`,
+    `f`.`time` AS `time_fechado`,
+    `f`.`temperatura` AS `temp_fechado`,
+    `f`.`umidade` AS `umidd_fechado`,
+    round((`f`.`temperatura` - `a`.`temperatura`),2) AS `dif_temp_fechado`,
+    round((`f`.`umidade` - `a`.`umidade`),2) AS `dif_umidd_fechado`,
+    `t`.`id` AS `id_termometro`,
+    `t`.`localidade` AS `loc_termometro`,
+    `t`.`time` AS `time_termometro`,
+    `t`.`temperatura` AS `temp_termometro`,
+    `t`.`umidade` AS `umidd_termometro`,
+    round((`t`.`temperatura` - `a`.`temperatura`),2) AS `dif_temp_termometro`,
+    round((`t`.`umidade` - `a`.`umidade`),2) AS `dif_umidd_termometro` 
+from ((`Clima` `a` join lateral (
+    select `f`.`id` AS `id`,`f`.`localidade` AS `localidade`,`f`.`sensor` AS `sensor`,`f`.`temperatura` AS `temperatura`,`f`.`umidade` AS `umidade`,`f`.`time` AS `time` 
+    from `Clima` `f` 
+    where (`f`.`localidade` = 'fechado') 
+    order by abs(timestampdiff(SECOND,`f`.`time`,`a`.`time`)) limit 1
+) `f`) join lateral (
+    select `t`.`id` AS `id`,`t`.`localidade` AS `localidade`,`t`.`sensor` AS `sensor`,`t`.`temperatura` AS `temperatura`,`t`.`umidade` AS `umidade`,`t`.`time` AS `time` 
+    from `Clima` `t` 
+    where (`t`.`localidade` = 'termometro') 
+    order by abs(timestampdiff(SECOND,`t`.`time`,`a`.`time`)) limit 1
+) `t`) 
+where ((`a`.`localidade` = 'aberto') 
+  and (abs(timestampdiff(SECOND,`f`.`time`,`a`.`time`)) <= 60) 
+  and (abs(timestampdiff(SECOND,`t`.`time`,`a`.`time`)) <= 60));
 ```
 
 ### Problema início automático ssh
