@@ -380,7 +380,15 @@ CREATE DATABASE iotpaulo;
 USE iotpaulo;
 ```
 ```
-CREATE TABLE `Clima` ( `id` int unsigned NOT NULL AUTO_INCREMENT, `localidade` varchar(30) DEFAULT NULL, `sensor` varchar(30) DEFAULT NULL, `temperatura` float DEFAULT NULL, `umidade` float unsigned DEFAULT NULL, `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (`id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `Clima` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `localidade` varchar(30) DEFAULT NULL,
+  `sensor` varchar(30) DEFAULT NULL,
+  `temperatura` float DEFAULT NULL,
+  `umidade` float unsigned DEFAULT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 ```
 ```
 CREATE TABLE `Offset` ( `id` int unsigned NOT NULL AUTO_INCREMENT, `localidade` varchar(30) DEFAULT NULL, `sensor` varchar(30) DEFAULT NULL, `tempoffset` float DEFAULT NULL, `umiddoffset` float unsigned DEFAULT NULL, `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (`id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
