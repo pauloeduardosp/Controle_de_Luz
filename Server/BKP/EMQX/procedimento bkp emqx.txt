@@ -1,0 +1,64 @@
+===============================================================================
+          PROCEDIMENTO DE BACKUP E RESTAURAÇÃO - EMQX BROKER (CLI)
+===============================================================================
+
+1. INFORMAÇÕES GERAIS
+-------------------------------------------------------------------------------
+* Diretórios Padrão no Ubuntu (Instalação via apt/.deb):
+  - Configurações:  /etc/emqx/
+  - Dados/Mnesia:   /var/lib/emqx/
+
+* Conteúdo salvo: Usuários do Dashboard, ACLs, tópicos persistentes,
+                  configurações de listeners e plugins.
+
+
+===============================================================================
+2. PASSO A PASSO PARA REALIZAR O BACKUP
+===============================================================================
+
+[PASSO 1] Parar o serviço do EMQX (Evita corrupção de dados no banco)
+---> Comando:
+sudo systemctl stop emqx
+
+[PASSO 2] Criar o arquivo compactado (.tar.gz) com a data atual
+---> Comando:
+sudo tar -czvf emqx_backup_$(date +%F).tar.gz /etc/emqx /var/lib/emqx
+
+[PASSO 3] Iniciar o serviço novamente
+---> Comando:
+sudo systemctl start emqx
+
+[PASSO 4] Armazenamento seguro
+---> Ação:
+Mova o arquivo gerado (ex: emqx_backup_2026-05-20.tar.gz) para um local seguro
+fora do servidor (ex: nuvem, HD externo ou servidor de backup).
+
+
+===============================================================================
+3. PASSO A PASSO PARA RESTAURAR O BACKUP
+===============================================================================
+
+[PASSO 1] Instalação prévia
+---> Ação:
+Instale a MESMA versão do EMQX que foi utilizada para gerar o backup.
+
+[PASSO 2] Parar o serviço do EMQX recém-instalado
+---> Comando:
+sudo systemctl stop emqx
+
+[PASSO 3] Extrair o arquivo de backup (Substituirá as pastas atuais)
+---> Comando:
+sudo tar -xzvf emqx_backup_NOME_DO_ARQUIVO.tar.gz -C /
+
+[PASSO 4] Corrigir permissões dos diretórios restaurados
+---> Comando:
+sudo chown -R emqx:emqx /etc/emqx /var/lib/emqx
+
+[PASSO 5] Iniciar o serviço com os dados restaurados
+---> Comando:
+sudo systemctl start emqx
+
+
+===================================================================================
+FIM DO PROCEDIMENTO
+===============================================================================
