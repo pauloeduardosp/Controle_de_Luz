@@ -3,22 +3,24 @@ Descrição passo a passo de como instalar a vps para utilização do node-red
 
 ## Conteúdo
 
-[1. Atualizar a VPS](#1.-Atualizar-a-VPS)  
-[2. Instalar o Node.js e o NPM - atualizado](#2.-Instalar-o-Node.js-e-o-NPM---atualizado)  
-[3. Instalar o Node-RED globalmente - atualizado](#3.-Instalar-o-Node-RED-globalmente---atualizado)  
-[4. Executar node-red no boot - atualizado](#4.-Executar-node-red-no-boot---atualizado)  
-&nbsp;&nbsp;&nbsp;&nbsp;[4.1 Executar outra instancia do node-red](#4.1-Executar-outra-instancia-do-node-red)  
-[6. Instalar o git](#6.-Instalar-o-git)  
-[7. Instalar packets node-red](#7.-Instalar-packets-node-red)  
-&nbsp;&nbsp;&nbsp;&nbsp;[7.1 Bkp do fluxo do node-red](#7.1-Bkp-do-fluxo-do-node-red)  
-&nbsp;&nbsp;&nbsp;&nbsp;[7.2 Forçar instalação dos pacotes faltantes - atualizado](#7.2-Forçar-instalação-dos-pacotes-faltantes---atualizado)  
-[8. Encaminhamento da home page](#8.-Encaminhamento-da-home-page)  
-[9. Criar repositório espelho do git hub](#9.-Criar-repositório-espelho-do-git-hub)  
-[10. Criação estrutua local do git](#10.-Criação-estrutua-local-do-git)  
-[11. Instalar EMQx - Atualizado](#11.-Instalar-EMQx---Atualizado)  
-[ Inicialiar EMQx no boot](#-Inicialiar-EMQx-no-boot)  
-[12. Instalar Mysql - atualizado](#12.-Instalar-Mysql---atualizado)  
+[1. Atualizar a VPS](#1-Atualizar-a-VPS)   
+[2. Instalar o Node.js e o NPM - atualizado](#2-Instalar-o-Nodejs-e-o-NPM---atualizado)   
+[3. Instalar o Node-RED globalmente - atualizado](#3-Instalar-o-Node-RED-globalmente---atualizado)   
+[4. Executar node-red no boot - atualizado](#4-Executar-node-red-no-boot---atualizado)   
+&nbsp;&nbsp;&nbsp;&nbsp;[4.1 Executar outra instancia do node-red](#41-Executar-outra-instancia-do-node-red)   
+[6. Instalar o git](#6-Instalar-o-git)   
+[7. Instalar packets node-red](#7-Instalar-packets-node-red)   
+&nbsp;&nbsp;&nbsp;&nbsp;[7.1 Bkp do fluxo do node-red](#71-Bkp-do-fluxo-do-node-red)   
+&nbsp;&nbsp;&nbsp;&nbsp;[7.2 Forçar instalação dos pacotes faltantes - atualizado](#72-Forçar-instalação-dos-pacotes-faltantes---atualizado)   
+[8. Encaminhamento da home page](#8-Encaminhamento-da-home-page)   
+[9. Criar repositório espelho do git hub](#9-Criar-repositório-espelho-do-git-hub)   
+[10. Criação estrutua local do git](#10-Criação-estrutua-local-do-git)   
+[11. Instalar EMQx - Atualizado](#11-Instalar-EMQx---Atualizado)   
+[ Inicialiar EMQx no boot](#-Inicialiar-EMQx-no-boot)   
+[12. Instalar Mysql - atualizado](#12-Instalar-Mysql---atualizado)   
 [Problema início automático ssh](#Problema-início-automático-ssh)   
+<img width="301" height="385" alt="image" src="https://github.com/user-attachments/assets/ea56d8b9-4fd4-4756-ab9e-b979af4638df" />
+
 
 ### 1. Atualizar a VPS
 ```
