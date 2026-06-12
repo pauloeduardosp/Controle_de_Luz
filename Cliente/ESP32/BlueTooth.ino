@@ -3,55 +3,57 @@
 #include <BLEUtils.h>
 #include <BLEScan.h>
 #include <BLEAdvertisedDevice.h>
-#include <PubSubClient.h> // Biblioteca para comunicação MQTT
+#include <PubSubClient.h>
+#include <map>
 
 // ================= CONFIGURAÇÕES WI-FI =================
 const char* ssid     = "anonymous2";
-const char* password = "manuela";
+const char* password = "manuela."; // Mantido com o ponto final do seu código
 
 // ================= CONFIGURAÇÕES MQTT =================
-const char* mqtt_server   = "iotpaulo.ddne.net";
+const char* mqtt_server   = "iotpaulo.ddns.net"; // Atualizado conforme seu código (.ddns)
 const int mqtt_port       = 1883;
 const char* mqtt_user     = "iotpaulo";
 const char* mqtt_pass     = "10tpaulo";
-const char* mqtt_topic    = "ape/xiaomi_novo/term"; // TÓPICO ATUALIZADO
+const char* mqtt_topic    = "ape/xiaomi_novo/term";
 
 WiFiClient espClient;
-PubSubClient client(espClient); // Instância do cliente MQTT
+PubSubClient client(espClient);
 
 int scanTime = 5; 
 BLEScan* pBLEScan;
 BLEUUID xiaomiServiceUUID((uint16_t)0xFE95);
 
-// Função responsável por garantir a conexão contínua com o Broker MQTT
+// Estrutura para manter o último estado conhecido de cada dado por MAC
+struct XiaomiData {
+  String ultimo_temp_umi = "";
+  String ultima_bateria   = "";
+};
+
+std::map<String, XiaomiData> tabelaDispositivos;
+
 void reconnect() {
   while (!client.connected()) {
     Serial.print("Tentando conexão MQTT...");
-    // Cria um ID de cliente único baseado no MAC do próprio ESP32
     String clientId = "ESP32Client-" + String(random(0xffff), HEX);
     
-    // Tenta conectar passando ID, usuário e senha fornecidos
     if (client.connect(clientId.c_str(), mqtt_user, mqtt_pass)) {
       Serial.println("Conectado ao Broker!");
     } else {
-      Serial.print("Falha na conexão. Status erro = ");
+      Serial.print("Falha. Erro = ");
       Serial.print(client.state());
-      Serial.println(". Tentando novamente em 5 segundos...");
+      Serial.println(". Nova tentativa em 5 segundos...");
       delay(5000);
     }
   }
 }
 
-// Classe de captura BLE integrada para envio MQTT
 class MyAdvertisedDeviceCallbacks: public BLEAdvertisedDeviceCallbacks {
     void onResult(BLEAdvertisedDevice advertisedDevice) {
       String macAddress = advertisedDevice.getAddress().toString();
       macAddress.toLowerCase();
       
-      // 1. Filtra pelo prefixo MAC dos termômetros Xiaomi
       if (macAddress.startsWith("a4:c1:38")) {
-        
-        // 2. Verifica se possui dados sob o serviço 0xFE95
         if (advertisedDevice.haveServiceData()) {
           int serviceDataCount = advertisedDevice.getServiceDataCount();
           
@@ -62,7 +64,6 @@ class MyAdvertisedDeviceCallbacks: public BLEAdvertisedDeviceCallbacks {
               size_t length = serviceDataStr.length();
               
               if (length > 0) {
-                // Converte os bytes do Service Data para string Hexadecimal pura
                 String bytesBrutos = "";
                 for (size_t j = 0; j < length; j++) {
                   uint8_t byteValue = (uint8_t)serviceDataStr[j];
@@ -70,23 +71,34 @@ class MyAdvertisedDeviceCallbacks: public BLEAdvertisedDeviceCallbacks {
                   bytesBrutos += String(byteValue, HEX);
                 }
                 
-                // Monta o JSON idêntico ao payload estruturado no seu Raspberry Pi
-                String payloadJson = "{\"mac\": \"" + macAddress + "\", \"bytes_brutos\": \"" + bytesBrutos + "\"}";
+                // Armazena seletivamente no array indexado baseado no tamanho real do pacote
+                if (length == 15) {
+                  tabelaDispositivos[macAddress].ultima_bateria = bytesBrutos;
+                  Serial.println("[ESP32 Memória] Bateria atualizada para " + macAddress);
+                } else if (length == 17) {
+                  tabelaDispositivos[macAddress].ultimo_temp_umi = bytesBrutos;
+                  Serial.println("[ESP32 Memória] Temp/Umi atualizada para " + macAddress);
+                }
+
+                // PUBLICAÇÃO FORMATADA: Enviamos no formato exato que a "function 4" do Node-RED quer ler
+                String payloadJson = "{\"mac\": \"";
+                payloadJson += macAddress;
+                payloadJson += "\", \"bytes_brutos\": \"";
+                payloadJson += bytesBrutos; // Mantém a compatibilidade com o script do Node-RED
+                payloadJson += "\"}";
                 
                 Serial.println("==================================================");
-                Serial.print("Publicando no MQTT: ");
+                Serial.print("Enviando para Node-RED: ");
                 Serial.println(payloadJson);
                 
-                // Garante que o cliente está online antes de enviar os dados
                 if (!client.connected()) {
                   reconnect();
                 }
                 
-                // Publica a mensagem no tópico configurado
                 if(client.publish(mqtt_topic, payloadJson.c_str())) {
-                  Serial.println("[MQTT] Sucesso ao publicar pacote!");
+                  Serial.println("[MQTT] Publicado!");
                 } else {
-                  Serial.println("[MQTT] Erro ao publicar pacote.");
+                  Serial.println("[MQTT] Erro ao publicar.");
                 }
                 Serial.println("==================================================");
               }
@@ -101,9 +113,8 @@ void setup() {
   Serial.begin(115200);
   delay(1000);
 
-  // 1. Inicializa o Wi-Fi
   Serial.println();
-  Serial.print("Conectando à rede: ");
+  Serial.print("Conectando ao Wi-Fi: ");
   Serial.println(ssid);
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
@@ -112,10 +123,8 @@ void setup() {
   }
   Serial.println("\nWi-Fi Conectado!");
 
-  // 2. Configura os parâmetros do servidor MQTT
   client.setServer(mqtt_server, mqtt_port);
 
-  // 3. Inicializa o Bluetooth (BLE)
   BLEDevice::init("");
   pBLEScan = BLEDevice::getScan(); 
   pBLEScan->setAdvertisedDeviceCallbacks(new MyAdvertisedDeviceCallbacks());
@@ -125,7 +134,6 @@ void setup() {
 }
 
 void loop() {
-  // Mantém a conexão MQTT ativa e processa pacotes pendentes de rede
   if (!client.connected()) {
     reconnect();
   }
@@ -135,5 +143,5 @@ void loop() {
   BLEScanResults* foundDevices = pBLEScan->start(scanTime, false);
   pBLEScan->clearResults(); 
   
-  delay(2000); 
+  delay(10000); 
 }
