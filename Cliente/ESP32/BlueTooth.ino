@@ -7,15 +7,15 @@
 #include <map>
 
 // ================= CONFIGURAÇÕES WI-FI =================
-const char* ssid     = "anonymous2";
-const char* password = "manuela."; // Mantido com o ponto final do seu código
+const char* ssid     = "ssdi_namae";
+const char* password = "ssdi_pass"; 
 
 // ================= CONFIGURAÇÕES MQTT =================
-const char* mqtt_server   = "iotpaulo.ddns.net"; // Atualizado conforme seu código (.ddns)
+const char* mqtt_server   = "mqtt_server"; 
 const int mqtt_port       = 1883;
-const char* mqtt_user     = "iotpaulo";
-const char* mqtt_pass     = "10tpaulo";
-const char* mqtt_topic    = "ape/xiaomi_novo/term";
+const char* mqtt_user     = "mqtt_user";
+const char* mqtt_pass     = "mqtt_pass";
+const char* mqtt_topic    = "mqtt_topic";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
